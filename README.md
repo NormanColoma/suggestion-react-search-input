@@ -2,6 +2,8 @@
 
 A suggestion search input for React based on searches entered. Once a option is entered, it will be displayed as a suggestion in following searches.
 
+![Demo](http://www.giphy.com/gifs/3bb14gzJHGPsRZSKCV)
+
 ## Features 
 
 * Supports keyboard navigation (up and down arrows).

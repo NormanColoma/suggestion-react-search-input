@@ -7,9 +7,6 @@ input[type=text].suggestion-input {
     width: 350px;
     font-size: 14px;
     font-family: 'Open Sans', sans-serif;
-    -webkit-transition: .2s ease all;
-    -o-transition: .2s ease all;
-    transition: .2s ease all;
     margin: 0 auto;
     position: absolute;
 }

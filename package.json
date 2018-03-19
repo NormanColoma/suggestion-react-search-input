@@ -1,7 +1,11 @@
 {
     "name": "suggestion-react-input-search",
     "version": "0.1.0",
-    "private": true,
+    "author": {
+        "name": "Norman Coloma",
+        "email": "ua.norman@gmail.com",
+        "url": "https://github.com/NormanColoma"
+    },
     "main": "build/index.js",
     "dependencies": {
         "react": "^16.2.0",

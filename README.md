@@ -2,7 +2,7 @@
 
 A suggestion search input for React based on searches entered. Once a option is entered, it will be displayed as a suggestion in following searches.
 
-![Demo](https://i.imgur.com/62YOk0S.gif)
+![Demo](https://i.imgur.com/5NCZWam.gif)
 
 ## Features 
 

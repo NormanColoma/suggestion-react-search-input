@@ -1,6 +1,15 @@
 {
     "name": "suggestion-react-input-search",
     "version": "0.1.2",
+    "description": "Suggestion search input based on searches entered for React",
+    "keywords": [
+        "React",
+        "Input",
+        "Suggestions",
+        "Autocomplete",
+        "Search"
+    ],
+    "homepage": "https://github.com/NormanColoma/suggestion-react-search-input",
     "author": {
         "name": "Norman Coloma",
         "email": "ua.norman@gmail.com",

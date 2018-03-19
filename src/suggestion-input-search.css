@@ -1,0 +1,33 @@
+input[type=text].suggestion-input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+    border-bottom: 1px solid #cacaca;
+    width: 350px;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    -webkit-transition: .2s ease all;
+    -o-transition: .2s ease all;
+    transition: .2s ease all;
+    margin: 0 auto;
+    position: absolute;
+}
+  
+input[type=text].suggestion-input:focus {
+    border-color: #008CBA;
+}
+
+.end {
+    right: 0;
+}
+
+.start {
+    left: 0;
+}
+
+.center {
+    right: 0;
+    left: 0;
+}
+

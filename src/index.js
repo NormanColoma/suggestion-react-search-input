@@ -38,7 +38,8 @@ class SuggestionInputSearch extends React.Component {
         inputPosition: 'start',
         suggestionListClass: 'suggestions-container',
         placeholder: 'Search...',
-        recentSearches: []
+        recentSearches: [],
+        minLength: 1
     }
 
     componentDidMount() {
@@ -109,7 +110,12 @@ class SuggestionInputSearch extends React.Component {
     }
 
     getSuggestionsFor(term) {
+        const { minLength } = this.props;
         const { recentSearches } = this.state;
+
+        if (minLength > term.length) {
+            return [];
+        }
         return term !== EMPTY_SEARCH_TERM ? recentSearches.filter(it => it.toLowerCase().includes(term.toLowerCase())) : [];
     }
 

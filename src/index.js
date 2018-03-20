@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SuggestionList from './suggestion-list/suggestion-list';
 import './suggestion-input-search.css';
 
@@ -11,19 +12,16 @@ const EMPTY_SUGGESTIONS = 0;
 const NO_SELECTED_ITEM_INDEX = -1;
 const CLICK_EVENT = 'click';
 const FIRST_ELEMENT_INDEX = 0;
-const DEFAULT_INPUT_CLASS = 'suggestion-input';
-const DEFAULT_SUGGESTION_LIST_CLASS = 'suggestions-container';
-const DEFAULT_INPUT_POSITION = 'start';
 
 class SuggestionInputSearch extends React.Component {
     constructor(props) {
         super(props);
 
         const { inputClass, suggestionListClass, inputPosition } = props;
-        this.state = { 
-            showSuggestions: false, 
-            suggestions: [], 
-            recentSearches: this.props.recentSearches, 
+        this.state = {
+            showSuggestions: false,
+            suggestions: [],
+            recentSearches: this.props.recentSearches,
             term: EMPTY_TERM,
             selectedItemIndex: NO_SELECTED_ITEM_INDEX
         };
@@ -33,6 +31,14 @@ class SuggestionInputSearch extends React.Component {
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.handleOnSelectedItemIndex = this.handleOnSelectedItemIndex.bind(this);
         this.inputRef = null;
+    }
+
+    static defaultProps = {
+        inputClass: 'suggestion-input',
+        inputPosition: 'start',
+        suggestionListClass: 'suggestions-container',
+        placeholder: 'Search...',
+        recentSearches: []
     }
 
     componentDidMount() {
@@ -54,15 +60,17 @@ class SuggestionInputSearch extends React.Component {
         if (termNotFound) {
             newSearches = [...this.state.recentSearches, term];
         }
-        
-        this.setState({ showSuggestions: false, suggestions: [], 
-            recentSearches: newSearches, term, selectedItemIndex: NO_SELECTED_ITEM_INDEX });
+
+        this.setState({
+            showSuggestions: false, suggestions: [],
+            recentSearches: newSearches, term, selectedItemIndex: NO_SELECTED_ITEM_INDEX
+        });
     }
 
     handleOnKeyPress(event) {
-        const { keyCode }  = event;
+        const { keyCode } = event;
         const { suggestions, selectedItemIndex } = this.state;
-        const term  = selectedItemIndex > NO_SELECTED_ITEM_INDEX ? suggestions[selectedItemIndex] : event.target.value;
+        const term = selectedItemIndex > NO_SELECTED_ITEM_INDEX ? suggestions[selectedItemIndex] : event.target.value;
 
         if (keyCode === ENTER_KEY_CODE && term !== EMPTY_SEARCH_TERM) {
             this.submitSearch(term);
@@ -70,7 +78,7 @@ class SuggestionInputSearch extends React.Component {
 
         if (keyCode === DOWN_ARROW_KEY_CODE || keyCode === UP_ARROW_KEY_CODE) {
             const selectedItemIndex = this.selectItem(suggestions, keyCode);
-            this.setState({selectedItemIndex});
+            this.setState({ selectedItemIndex });
             event.preventDefault();
         }
     }
@@ -81,8 +89,8 @@ class SuggestionInputSearch extends React.Component {
 
         if (nextSelectedItemIndex >= items.length) {
             return FIRST_ELEMENT_INDEX;
-        } 
-        
+        }
+
         if (nextSelectedItemIndex < FIRST_ELEMENT_INDEX) {
             return items.length - 1;
         }
@@ -113,7 +121,7 @@ class SuggestionInputSearch extends React.Component {
     handleClickOutside(event) {
         if (!this.inputRef.contains(event.target)) {
             this.setState({ showSuggestions: false, selectedItemIndex: NO_SELECTED_ITEM_INDEX });
-        } 
+        }
     }
 
     handleOnSelectedItemIndex(selectedItemIndex) {
@@ -124,29 +132,25 @@ class SuggestionInputSearch extends React.Component {
         const { suggestions, showSuggestions, selectedItemIndex } = this.state;
         const { placeholder, inputClass, inputPosition, suggestionListClass } = this.props;
 
-        const finalInputClass = inputClass ? inputClass : DEFAULT_INPUT_CLASS;
-        const inputPositionClass = inputPosition ? inputPosition : DEFAULT_INPUT_POSITION;
-        const finalSuggestionListClass = suggestionListClass ? suggestionListClass : DEFAULT_SUGGESTION_LIST_CLASS;
-        const inputClasses = `${finalInputClass} ${inputPositionClass}`;
-        const suggestionListClasses = `${finalSuggestionListClass} ${inputPositionClass}`;
-        const finalPlaceholder = placeholder ? placeholder : 'Search...';
+        const inputClasses = `${inputClass} ${inputPosition}`;
+        const suggestionListClasses = `${suggestionListClass} ${inputPosition}`;
 
         return (
             <div>
-                <input 
-                    type="text" 
-                    name="search" 
-                    placeholder={finalPlaceholder} 
+                <input
+                    type="text"
+                    name="search"
+                    placeholder={placeholder}
                     value={this.state.term}
                     onChange={this.handleOnSearch}
                     onClick={this.handleOnSearch}
-                    onKeyDown={this.handleOnKeyPress} 
-                    ref={(input) => {this.inputRef = input}}
+                    onKeyDown={this.handleOnKeyPress}
+                    ref={(input) => { this.inputRef = input }}
                     className={inputClasses}
                 />
                 <SuggestionList
-                    show={showSuggestions} 
-                    suggestions={suggestions} 
+                    show={showSuggestions}
+                    suggestions={suggestions}
                     onClickItem={this.handleOnClickOnItem}
                     onSelectedItemIndex={this.handleOnSelectedItemIndex}
                     selectedItemIndex={selectedItemIndex}

@@ -78,22 +78,22 @@ class SuggestionInputSearch extends React.Component {
         }
 
         if (keyCode === DOWN_ARROW_KEY_CODE || keyCode === UP_ARROW_KEY_CODE) {
-            const selectedItemIndex = this.selectItem(suggestions, keyCode);
+            const selectedItemIndex = this.selectItem(suggestions.length, keyCode);
             this.setState({ selectedItemIndex });
             event.preventDefault();
         }
     }
 
-    selectItem(items, shiftingType) {
+    selectItem(itemsLength, shiftingType) {
         let { selectedItemIndex } = this.state;
         const nextSelectedItemIndex = shiftingType === DOWN_ARROW_KEY_CODE ? selectedItemIndex + 1 : selectedItemIndex - 1;
 
-        if (nextSelectedItemIndex >= items.length) {
+        if (nextSelectedItemIndex >= itemsLength) {
             return FIRST_ELEMENT_INDEX;
         }
 
         if (nextSelectedItemIndex < FIRST_ELEMENT_INDEX) {
-            return items.length - 1;
+            return itemsLength - 1;
         }
         return nextSelectedItemIndex;
     }
@@ -116,7 +116,7 @@ class SuggestionInputSearch extends React.Component {
         if (minLength > term.length) {
             return [];
         }
-        return term !== EMPTY_SEARCH_TERM ? recentSearches.filter(it => it.toLowerCase().includes(term.toLowerCase())) : [];
+        return recentSearches.filter(it => it.toLowerCase().includes(term.toLowerCase()));
     }
 
     handleOnClickOnItem(event) {

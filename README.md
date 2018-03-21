@@ -2,7 +2,8 @@
 
 A suggestion search input for React based on searches entered. Once a option is entered, it will be displayed as a suggestion in following searches.
 
-![Demo](https://i.imgur.com/bxvzWwf.gif)
+![Demo](https://i.imgur.com/bxvzWwf.gif
+)
 
 ## Features 
 
@@ -13,6 +14,8 @@ A suggestion search input for React based on searches entered. Once a option is 
 * As a result of submitting, a function is fired up. This function must be provided as a property for this component. This function may take the selected option or the text entered in case it does not match any suggested option. 
 
 * When clicking an item from dropdown list, submitting function is fired up. The behaviour in this case, is the same as submitting the input by pressing the enter key.
+
+* It is possible to specify the minimum length of the text entered before starting making suggestions.
 
 * If an item is selected, or mouse is over it, when submitting, the option selected is chosen.
 
@@ -69,7 +72,7 @@ export default App;
 
 * **onSubmitFunction:** Function to be executed when clicking an item or submitting text entered. **Required**
 
-* **recentSearches:** An array containing recent searches. As long as you want to start with preestablished historic of searches, pass it. **Optional**
+* **recentSearches:** An array containing recent searches. As long as you want to start with preestablished historic of searches, pass it. By default empty array is passed. **Optional**
 
 * **placeholder:** The placeholder to be displayed in input. By default is *'Search...'*. **Optional**
 
@@ -78,3 +81,5 @@ export default App;
 * **inputClass:** Styles provided to the input. It comes with very simple styles, but you can pass your own styles by setting this property with the name of your custom class. **Optional**
 
 * **suggestionListClass:** Styles provided to the dropdown list of suggestions. It comes with very simple styles, but you can pass your own styles by setting this property with the name of your custom class. **Optional**
+
+* **minLength:** Specifies the length of the text entered before starting making suggestions. By default the length is fixed to 1 character. **Optional**

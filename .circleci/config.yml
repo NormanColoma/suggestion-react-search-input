@@ -1,14 +1,26 @@
 version: 2
 jobs:
-  build:
+  install:
     working_directory: ~/project
     docker:
       - image: circleci/node:8
     steps:
       - checkout
       - run: npm install
+  test: 
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
       - run: npm run test:production
-      - run: npm run build 
+  build: 
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - run: npm run build
   deploy:
     working_directory: ~/project
     docker:
@@ -20,7 +32,9 @@ jobs:
 
 workflows:
   version: 2
-  install_and_build:
+  full_deploy:
     jobs:
+      - install
+      - test
       - build
       - deploy

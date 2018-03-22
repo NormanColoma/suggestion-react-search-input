@@ -8,7 +8,9 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run test:production
-  build: 
+  build:
+    docker:
+      - image: circleci/node:8 
     steps: 
       - run: npm run build 
   deploy:

@@ -2,3 +2,7 @@ webpack.config.js
 .babelrc
 .gitignore
 src/
+.circleci
+.vscode
+CHANGELOG.md
+README.md

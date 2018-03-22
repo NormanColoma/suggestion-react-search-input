@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  install:
     working_directory: ~/project
     docker:
       - image: circleci/node:8
@@ -8,7 +8,9 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run test:production
-      - run: npm run build
+  build: 
+    steps: 
+      - run: npm run build 
   deploy:
     - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
     - deploy:
@@ -19,7 +21,7 @@ jobs:
 
 workflows:
   version: 2
-  build_and_publish:
+  install_and_build:
     jobs:
+      - install
       - build
-      - deploy

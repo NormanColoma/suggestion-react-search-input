@@ -1,5 +1,8 @@
 version: 2
 jobs:
+  dependencies:
+    pre:
+      - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
   build:
     working_directory: ~/project
     docker:
@@ -8,3 +11,10 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run test:production
+      - run: npm run build
+      - deploy:
+          filters: 
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+          command: npm publish
+  

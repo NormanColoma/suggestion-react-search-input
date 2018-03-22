@@ -9,22 +9,22 @@ jobs:
       - run: npm install
   test: 
     working_directory: ~/project
-    machine:
-        enabled: true
+    docker:
+      - image: circleci/node:8
     steps:
       - checkout
       - run: npm run test:production
   build: 
     working_directory: ~/project
-    machine:
-        enabled: true
+    docker:
+      - image: circleci/node:8
     steps:
       - checkout
       - run: npm run build
   deploy:
     working_directory: ~/project
-    machine:
-        enabled: true
+    docker:
+      - image: circleci/node:8
     steps: 
     - checkout
     - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc

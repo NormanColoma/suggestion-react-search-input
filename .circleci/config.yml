@@ -7,6 +7,10 @@ jobs:
     steps:
       - checkout
       - run: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
   test: 
     docker:
       - image: circleci/node:8
@@ -35,9 +39,3 @@ workflows:
       - test:
           requires:
             - install
-      - build:
-          requires: 
-            - test
-      - deploy: 
-          requires:
-            - build

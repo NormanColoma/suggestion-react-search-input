@@ -35,6 +35,12 @@ workflows:
   full_deploy:
     jobs:
       - install
-      - test
-      - build
-      - deploy
+      - test:
+          requires:
+            - install
+      - build:
+          requires: 
+            - test
+      - deploy: 
+          requires:
+            - build

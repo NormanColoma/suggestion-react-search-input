@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  install:
+  build:
     working_directory: ~/project
     docker:
       - image: circleci/node:8
@@ -8,18 +8,12 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run test:production
-  build:
-    docker:
-      - image: circleci/node:8 
-    steps: 
       - run: npm run build 
   deploy:
+    steps: 
+    - checkout
     - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-    - deploy:
-        filters: 
-          tags:
-            only: /v[0-9]+(\.[0-9]+)*/
-        command: npm publish
+    - run: npm publish
 
 workflows:
   version: 2

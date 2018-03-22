@@ -1,8 +1,8 @@
 version: 2
 jobs:
   dependencies:
-    pre:
-      - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+    steps:
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
   build:
     working_directory: ~/project
     docker:

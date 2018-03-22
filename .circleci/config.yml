@@ -1,3 +1,10 @@
-machine: 
-  node: 
-    version: 8.1.4
+version: 2
+jobs:
+  build:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test

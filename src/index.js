@@ -8,6 +8,7 @@ const EMPTY_TERM = '';
 const ENTER_KEY_CODE = 13;
 const DOWN_ARROW_KEY_CODE = 40;
 const UP_ARROW_KEY_CODE = 38;
+const ESCAPE_KEY_CODE = 27;
 const EMPTY_SUGGESTIONS = 0;
 const NO_SELECTED_ITEM_INDEX = -1;
 const CLICK_EVENT = 'click';
@@ -72,6 +73,10 @@ class SuggestionInputSearch extends React.Component {
         const { keyCode } = event;
         const { suggestions, selectedItemIndex } = this.state;
         const term = selectedItemIndex > NO_SELECTED_ITEM_INDEX ? suggestions[selectedItemIndex] : event.target.value;
+
+        if (keyCode === ESCAPE_KEY_CODE) {
+            this.setState({ showSuggestions: false, suggestions: [], selectedItemIndex: NO_SELECTED_ITEM_INDEX });
+        }
 
         if (keyCode === ENTER_KEY_CODE && term !== EMPTY_SEARCH_TERM) {
             this.submitSearch(term);

@@ -12,6 +12,7 @@ configure({ adapter: new Adapter() });
 const DOWN_ARROW_KEY_CODE = 40;
 const UP_ARROW_KEY_CODE = 38;
 const ENTER_KEY_CODE = 13;
+const ESCAPE_KEY_CODE = 27;
 
 test('Should check default state', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
@@ -145,6 +146,33 @@ test('should call submitSearch fn when enter_key is pressed and term is not empt
     suggestionInputSearch.instance().handleOnKeyPress(event);
 
     expect(spy).toHaveBeenCalledWith('star wars');
+});
+
+test('should call setState fn and hide suggestionList when escape_key is pressed', () => {
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+    const event = {
+        keyCode: ESCAPE_KEY_CODE, 
+    };
+    const showSuggestions = true;
+    const recentSearches = ['star wars'];
+    const suggestions = ['star wars'];
+    const term = 'star';
+    const selectedItemIndex = 0;
+
+    suggestionInputSearch.setState({
+        showSuggestions,
+        recentSearches,
+        suggestions,
+        term,
+        selectedItemIndex
+    });
+
+    suggestionInputSearch.instance().handleOnKeyPress(event);
+
+    const expectedState = {
+        showSuggestions: false, suggestions: [] , term, recentSearches, selectedItemIndex: -1
+    }
+    expect(suggestionInputSearch.state()).toEqual(expectedState)
 });
 
 test('should call submitSearch fn when clicking item from suggestion list', () => {

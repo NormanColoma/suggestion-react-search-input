@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/NormanColoma/suggestion-react-search-input/tree/master.svg?style=svg)](https://circleci.com/gh/NormanColoma/suggestion-react-search-input/tree/master)
+[![Build Status](http://circleci-badges-max.herokuapp.com/img/NormanColoma/suggestion-react-search-input?token=10091003d058c6c79a62cc8ce1af8cbeaed2e753)](https://circleci.com/gh/NormanColoma/suggestion-react-search-input)
 # Suggestion React Input Search
 
 A suggestion search input for React based on searches entered. Once a option is entered, it will be displayed as a suggestion in following searches.

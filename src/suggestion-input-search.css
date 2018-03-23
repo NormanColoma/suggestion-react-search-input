@@ -12,7 +12,8 @@ input[type=text].suggestion-input {
 }
   
 input[type=text].suggestion-input:focus {
-    border-color: #008CBA;
+    transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+    border-bottom: 2px solid #008CBA;
 }
 
 .end {

@@ -28,6 +28,10 @@
 .suggestions-container ul li span {
     padding: 8px 15px;
     float: left;
+    letter-spacing: .2px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-transform: lowercase;
 }
 
 .suggestions-container ul li.selected {

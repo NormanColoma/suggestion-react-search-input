@@ -39,10 +39,16 @@ workflows:
   version: 2
   full_deploy:
     jobs:
-      - install
+      - install:
+          filters: 
+            tags:
+              only: /.*/
       - test:
           requires:
             - install
+          filters: 
+            tags:
+              only: /.*/
       - build:
           requires: 
             - test

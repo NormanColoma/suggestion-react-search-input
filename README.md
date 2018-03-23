@@ -10,6 +10,8 @@ A suggestion search input for React based on searches entered. Once a option is 
 
 * Supports keyboard navigation (up and down arrows).
 
+* Supports hiding the list by clicking outside the input or by pressing escape key.
+
 * Submitting is supported by enter key (when submitting a function is fired up).
 
 * As a result of submitting, a function is fired up. This function must be provided as a property for this component. This function may take the selected option or the text entered in case it does not match any suggested option. 

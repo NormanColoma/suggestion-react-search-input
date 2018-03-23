@@ -1,4 +1,6 @@
 [![Build Status](http://circleci-badges-max.herokuapp.com/img/NormanColoma/suggestion-react-search-input?token=10091003d058c6c79a62cc8ce1af8cbeaed2e753)](https://circleci.com/gh/NormanColoma/suggestion-react-search-input)
+[![npm version](https://badge.fury.io/js/suggestion-react-input-search.svg)](https://badge.fury.io/js/suggestion-react-input-search)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/NormanColoma/suggestion-react-search-input/blob/master/LICENSE.md)
 # Suggestion React Input Search
 
 A suggestion search input for React based on searches entered. Once a option is entered, it will be displayed as a suggestion in following searches.

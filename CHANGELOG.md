@@ -2,6 +2,7 @@
 
 * Supports closing suggestion list by pressing escape key
 * New tests added for testing new functionality
+* Add minor improvements to suggestion list style
 
 # 0.1.8 (March 22, 2018)
 

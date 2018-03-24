@@ -19,6 +19,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm run test:production
+      - coverage
   build: 
     docker:
       - image: circleci/node:8

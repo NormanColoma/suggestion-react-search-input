@@ -1,2 +1,2 @@
-service_name: travis-ci
+service_name: circle-ci
 repo_token: ${COVERALLS_REPO_TOKEN}

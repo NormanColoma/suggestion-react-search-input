@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SuggestionList from './suggestion-list/suggestion-list';
-import { addNewSearch, resetAndHideSuggestions, selectItemIndex, establishSuggestionsForTerm, hideSuggestions } from './state-management/state-management';
+import { addNewSearch, resetAndHideSuggestions, selectItemIndex, establishSuggestionsForTerm, 
+    hideSuggestions } from './state-management/state-management';
+import { ENTER_KEY_CODE, DOWN_ARROW_KEY_CODE, UP_ARROW_KEY_CODE, ESCAPE_KEY_CODE, CLICK_EVENT } from './keyboard.constants';
 import './suggestion-input-search.css';
 
 const EMPTY_SEARCH_TERM = "";
 const EMPTY_TERM = '';
-const ENTER_KEY_CODE = 13;
-const DOWN_ARROW_KEY_CODE = 40;
-const UP_ARROW_KEY_CODE = 38;
-const ESCAPE_KEY_CODE = 27;
 const EMPTY_SUGGESTIONS = 0;
 const NO_SELECTED_ITEM_INDEX = -1;
-const CLICK_EVENT = 'click';
 const FIRST_ELEMENT_INDEX = 0;
 
 class SuggestionInputSearch extends React.Component {
@@ -52,10 +49,11 @@ class SuggestionInputSearch extends React.Component {
         document.removeEventListener(CLICK_EVENT, this.handleClickOutside);
     }
 
-    submitSearch(term) {
-        const { onSubmitFunction } = this.props;
-        this.setState(addNewSearch(term));
-        onSubmitFunction(term);
+    getSuggestionsFor(term) {
+        const { minLength } = this.props;
+        const { recentSearches } = this.state;
+
+        return minLength > term.length ? [] : recentSearches.filter(it => it.toLowerCase().includes(term.toLowerCase()));
     }
 
     handleOnKeyPress(event) {
@@ -78,32 +76,11 @@ class SuggestionInputSearch extends React.Component {
         }
     }
 
-    selectItem(itemsLength, shiftingType) {
-        let { selectedItemIndex } = this.state;
-        const nextSelectedItemIndex = shiftingType === DOWN_ARROW_KEY_CODE ? selectedItemIndex + 1 : selectedItemIndex - 1;
-
-        if (nextSelectedItemIndex >= itemsLength) {
-            return FIRST_ELEMENT_INDEX;
-        }
-
-        if (nextSelectedItemIndex < FIRST_ELEMENT_INDEX) {
-            return itemsLength - 1;
-        }
-        return nextSelectedItemIndex;
-    }
-
     handleOnSearch(event) {
         const term = event.target.value;
         const suggestions = this.getSuggestionsFor(term);
 
         this.setState(establishSuggestionsForTerm(suggestions, term));
-    }
-
-    getSuggestionsFor(term) {
-        const { minLength } = this.props;
-        const { recentSearches } = this.state;
-
-        return minLength > term.length ? [] : recentSearches.filter(it => it.toLowerCase().includes(term.toLowerCase()));
     }
 
     handleOnClickOnItem(event) {
@@ -119,6 +96,26 @@ class SuggestionInputSearch extends React.Component {
 
     handleOnSelectedItemIndex(selectedItemIndex) {
         this.setState(selectItemIndex(selectedItemIndex));
+    }
+
+    selectItem(itemsLength, shiftingType) {
+        let { selectedItemIndex } = this.state;
+        const nextSelectedItemIndex = shiftingType === DOWN_ARROW_KEY_CODE ? selectedItemIndex + 1 : selectedItemIndex - 1;
+
+        if (nextSelectedItemIndex >= itemsLength) {
+            return FIRST_ELEMENT_INDEX;
+        }
+
+        if (nextSelectedItemIndex < FIRST_ELEMENT_INDEX) {
+            return itemsLength - 1;
+        }
+        return nextSelectedItemIndex;
+    }
+
+    submitSearch(term) {
+        const { onSubmitFunction } = this.props;
+        this.setState(addNewSearch(term));
+        onSubmitFunction(term);
     }
 
     render() {

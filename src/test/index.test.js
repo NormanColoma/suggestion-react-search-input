@@ -6,27 +6,12 @@ import { shallow } from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-
 configure({ adapter: new Adapter() });
 
 const DOWN_ARROW_KEY_CODE = 40;
 const UP_ARROW_KEY_CODE = 38;
 const ENTER_KEY_CODE = 13;
 const ESCAPE_KEY_CODE = 27;
-
-test('Should check default state', () => {
-    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
-
-    const defaultState = {
-        selectedItemIndex: -1,
-        showSuggestions: false,
-        suggestions: [],
-        term: "",
-        recentSearches: []
-    };
-
-    expect(suggestionInputSearch.state()).toEqual(defaultState);
-});
 
 test('Should return empty array of suggestions when recentSearches is empty', () =>{
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
@@ -105,6 +90,7 @@ test('should call selectItem fn when down_arrow key is pressed', () => {
     const selectedItemIndex = 3;
     const spySelectItem = jest.spyOn(suggestionInputSearch.instance(), 'selectItem').mockReturnValue(selectedItemIndex);
     const spySubmitSearch = jest.spyOn(suggestionInputSearch.instance(), 'submitSearch').mockReturnValue(selectedItemIndex);
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
     const event = {
         keyCode: DOWN_ARROW_KEY_CODE, 
         target: { value: ""},
@@ -112,16 +98,18 @@ test('should call selectItem fn when down_arrow key is pressed', () => {
     };
 
     suggestionInputSearch.instance().handleOnKeyPress(event);
+
     expect(spySelectItem).toHaveBeenCalledTimes(1);
     expect(spySelectItem).toHaveBeenCalledWith(0, DOWN_ARROW_KEY_CODE);
     expect(spySubmitSearch).toHaveBeenCalledTimes(0);
-    expect(suggestionInputSearch.state().selectedItemIndex).toBe(selectedItemIndex);
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
 test('should call selectItem fn when up_arrow key is pressed', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
     const selectedItemIndex = 3;
-    const spy = jest.spyOn(suggestionInputSearch.instance(), 'selectItem').mockReturnValue(selectedItemIndex);
+    const selectItemSpy = jest.spyOn(suggestionInputSearch.instance(), 'selectItem').mockReturnValue(selectedItemIndex);
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
     const event = {
         keyCode: UP_ARROW_KEY_CODE, 
         target: { value: ""},
@@ -130,16 +118,14 @@ test('should call selectItem fn when up_arrow key is pressed', () => {
 
     suggestionInputSearch.instance().handleOnKeyPress(event);
 
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(suggestionInputSearch.state().selectedItemIndex).toBe(selectedItemIndex);
+    expect(selectItemSpy).toHaveBeenCalledTimes(1);
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
 test('should call submitSearch fn when enter_key is pressed and term is not empty', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
     const spy = jest.spyOn(suggestionInputSearch.instance(), 'submitSearch').mockReturnValue({});
-    const event = {
-        keyCode: ENTER_KEY_CODE, 
-    };
+    const event = { keyCode: ENTER_KEY_CODE };
     const initialState = { selectedItemIndex: 0 , suggestions: ['star wars'] };
     suggestionInputSearch.setState(initialState);
 
@@ -150,9 +136,7 @@ test('should call submitSearch fn when enter_key is pressed and term is not empt
 
 test('should call setState fn and hide suggestionList when escape_key is pressed', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
-    const event = {
-        keyCode: ESCAPE_KEY_CODE, 
-    };
+    const event = { keyCode: ESCAPE_KEY_CODE };
     const showSuggestions = true;
     const recentSearches = ['star wars'];
     const suggestions = ['star wars'];
@@ -167,23 +151,18 @@ test('should call setState fn and hide suggestionList when escape_key is pressed
         selectedItemIndex
     });
 
+    const spy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+
     suggestionInputSearch.instance().handleOnKeyPress(event);
 
-    const expectedState = {
-        showSuggestions: false, suggestions: [] , term, recentSearches, selectedItemIndex: -1
-    }
-    expect(suggestionInputSearch.state()).toEqual(expectedState)
+    expect(spy).toHaveBeenCalledTimes(1);
 });
 
 test('should call submitSearch fn when clicking item from suggestion list', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
     const term = 'star wars';
     const spy = jest.spyOn(suggestionInputSearch.instance(), 'submitSearch').mockReturnValue({});
-    const event = {
-        target: {
-            innerText: term
-        }, 
-    };
+    const event = { target: { innerText: term } };
 
     suggestionInputSearch.instance().handleOnClickOnItem(event);
 
@@ -194,96 +173,65 @@ test('should call submitSearch fn when clicking item from suggestion list', () =
 test('should call setState when getting at least one suggestion when searching', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
     const term = 'star wars';
-    const spy = jest.spyOn(suggestionInputSearch.instance(), 'getSuggestionsFor').mockReturnValue([term]);
-    const event = {
-        target: {
-            value: term
-        }, 
-    };
+    const getSuggestionsSpy = jest.spyOn(suggestionInputSearch.instance(), 'getSuggestionsFor').mockReturnValue([term]);
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    const event = { target: { value: term } };
 
     suggestionInputSearch.instance().handleOnSearch(event);
 
-    expect(spy).toHaveBeenCalledWith(term);
-    expect(spy).toHaveBeenCalledTimes(1);
-
-    const expectedState = {
-        showSuggestions: true, suggestions: ['star wars'], term, recentSearches: [], selectedItemIndex: -1
-    };
-    expect(suggestionInputSearch.state()).toEqual(expectedState);
+    expect(getSuggestionsSpy).toHaveBeenCalledWith(term);
+    expect(getSuggestionsSpy).toHaveBeenCalledTimes(1);
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
 test('should call setState when getting any suggestion when searching', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
     const term = 'star wars';
-    const spy = jest.spyOn(suggestionInputSearch.instance(), 'getSuggestionsFor').mockReturnValue([]);
-    const event = {
-        target: {
-            value: term
-        }, 
-    };
+    const getSuggestionsSpy = jest.spyOn(suggestionInputSearch.instance(), 'getSuggestionsFor').mockReturnValue([]);
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    const event = { target: { value: term } };
 
     suggestionInputSearch.instance().handleOnSearch(event);
 
-    expect(spy).toHaveBeenCalledWith(term);
-    expect(spy).toHaveBeenCalledTimes(1);
-
-    const expectedState = {
-        showSuggestions: false, suggestions: [], term, recentSearches: [], selectedItemIndex: -1
-    };
-    expect(suggestionInputSearch.state()).toEqual(expectedState);
+    expect(getSuggestionsSpy).toHaveBeenCalledWith(term);
+    expect(getSuggestionsSpy).toHaveBeenCalledTimes(1);
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
 test('should call setState when selecting item index', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
     const selectedItemIndex = 1;
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
 
     suggestionInputSearch.instance().handleOnSelectedItemIndex(selectedItemIndex);
 
-    const expectedState = {
-        showSuggestions: false, suggestions: [], term: "", recentSearches: [], selectedItemIndex
-    };
-    expect(suggestionInputSearch.state()).toEqual(expectedState);
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
 test('should call setState when clicking outside the component', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
-    const event = {
-        target: {}, 
-    };
+    const event = { target: {} };
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
 
-    suggestionInputSearch.instance().inputRef = { 
-        contains: () => false
-    };
+    suggestionInputSearch.instance().inputRef = { contains: () => false };
     suggestionInputSearch.instance().handleClickOutside(event);
 
-    const expectedState = {
-        showSuggestions: false, suggestions: [], term:"", recentSearches: [], selectedItemIndex: -1
-    };
-    expect(suggestionInputSearch.state()).toEqual(expectedState);
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
 test('should not call setState when clicking inside the component', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
-    const event = {
-        target: {}, 
-    };
+    const event = { target: {} };
     const showSuggestions = true;
     const selectedItemIndex = 2;
 
-    suggestionInputSearch.setState({
-        showSuggestions,
-        selectedItemIndex
-    });
-    suggestionInputSearch.instance().inputRef = { 
-        contains: () => true
-    };;
+    suggestionInputSearch.setState({ showSuggestions, selectedItemIndex });
+    suggestionInputSearch.instance().inputRef = { contains: () => true };
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
 
     suggestionInputSearch.instance().handleClickOutside(event);
 
-    const expectedState = {
-        showSuggestions, suggestions: [], term:"", recentSearches: [], selectedItemIndex
-    };
-    expect(suggestionInputSearch.state()).toEqual(expectedState);
+    expect(setStateSpy).toHaveBeenCalledTimes(0);
 });
 
 test('should call setState when submiting the component and term passed not found', () => {
@@ -291,16 +239,12 @@ test('should call setState when submiting the component and term passed not foun
     const term = 'star wars';
     const recentSearches = ['star'];
 
-    suggestionInputSearch.setState({
-        recentSearches
-    });
+    suggestionInputSearch.setState({ recentSearches });
 
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
     suggestionInputSearch.instance().submitSearch(term);
 
-    const expectedState = {
-        showSuggestions: false, suggestions: [], term, recentSearches: ['star', term], selectedItemIndex: -1
-    };
-    expect(suggestionInputSearch.state()).toEqual(expectedState);
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
 test('should call setState when submiting the component and term passed found', () => {
@@ -308,16 +252,12 @@ test('should call setState when submiting the component and term passed found', 
     const term = 'star wars';
     const recentSearches = [term];
 
-    suggestionInputSearch.setState({
-        recentSearches
-    });
+    suggestionInputSearch.setState({ recentSearches });
 
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
     suggestionInputSearch.instance().submitSearch(term);
 
-    const expectedState = {
-        showSuggestions: false, suggestions: [], term, recentSearches: [term], selectedItemIndex: -1
-    };
-    expect(suggestionInputSearch.state()).toEqual(expectedState);
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
 

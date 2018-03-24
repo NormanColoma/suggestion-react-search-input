@@ -1,5 +1,5 @@
 import React from 'react';
-import SuggestionInputSearch from '../index';
+import SuggestionInputSearch from './index';
 
 // Enzyme for testing components
 import { shallow } from 'enzyme';

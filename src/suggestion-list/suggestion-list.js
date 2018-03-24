@@ -4,49 +4,62 @@ import './suggestion-list.css';
 const SELECTED_CLASS = 'selected';
 const EMPTY_CLASS = "";
 
-const SuggestionList = ({ suggestions, onClickItem, onSelectedItemIndex, show, selectedItemIndex, suggestionListClass }) => {
+class SuggestionList extends React.Component {
 
-    let suggestionListRef = null;
+    constructor(props) {
+        super(props);
+        this.suggestionListRef = null;
+    }
 
-    const onMouseOver = (event) => {
-        const childrenElems = suggestionListRef.children;
+    onMouseOver(event) {
+        const childrenElems = this.suggestionListRef.children;
         const { target: element } = event;
         const { parentElement } = element;
-        
-        for(let index=0; index<childrenElems.length; index++) {
+
+        for (let index = 0; index < childrenElems.length; index++) {
             const currentChildren = childrenElems[index];
             currentChildren.className = EMPTY_CLASS;
-            if (element === currentChildren || parentElement === currentChildren) {
-                currentChildren.className = SELECTED_CLASS;
-                onSelectedItemIndex(index);
-            }
+            this.setItemAsSelected(element, parentElement, currentChildren, index);
         }
     }
 
-    const suggestionList = suggestions.map((it, index) => {
-        if (index === selectedItemIndex) {
-            return <li key={it} 
-                       className={SELECTED_CLASS} 
-                       onClick={event => onClickItem(event)} 
-                       onMouseOver={event => onMouseOver(event)}>
-                       <span>{it}</span>
-                    </li>;
+    setItemAsSelected(element, parentElement, currentItem, itemIndex) {
+        const { onSelectedItemIndex } = this.props;
+        
+        if (element === currentItem || parentElement === currentItem) {
+            currentItem.className = SELECTED_CLASS;
+            onSelectedItemIndex(itemIndex);
         }
-        return <li key={it} 
-                   onClick={event => onClickItem(event)} 
-                   onMouseOver={event => onMouseOver(event)}>
-                  <span>{it}</span>
-               </li>;
-    });
+    }
 
-    if (show) {
-        return <div className={suggestionListClass}>
-            <ul ref={(list) => { suggestionListRef = list; }}>
-                {suggestionList}
-            </ul>
-        </div>;
-    } 
-    return null;
+    render() {
+        const { show, suggestions, suggestionListClass, onClickItem, selectedItemIndex } = this.props;
+
+        if (show) {
+            const suggestionList = suggestions.map((it, index) => {
+                if (index === selectedItemIndex) {
+                    return <li key={it}
+                        className={SELECTED_CLASS}
+                        onClick={event => onClickItem(event)}
+                        onMouseOver={event => this.onMouseOver(event)}>
+                        <span>{it}</span>
+                    </li>;
+                }
+                return <li key={it}
+                    onClick={event => onClickItem(event)}
+                    onMouseOver={event => this.onMouseOver(event)}>
+                    <span>{it}</span>
+                </li>;
+            });
+
+            return <div className={suggestionListClass}>
+                <ul ref={(list) => { this.suggestionListRef = list; }}>
+                    {suggestionList}
+                </ul>
+            </div>;
+        }
+        return null;
+    }
 }
 
 export default SuggestionList;

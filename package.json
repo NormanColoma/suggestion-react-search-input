@@ -51,8 +51,8 @@
         }
     },
     "scripts": {
-        "test": "jest --watch",
-        "test:production": "jest",
+        "test": "jest --watch --coverage",
+        "test:production": "jest --coverage",
         "start": "webpack --watch",
         "build": "webpack  --config ./webpack.config.js --mode production"
     }

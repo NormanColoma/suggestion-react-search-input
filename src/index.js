@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SuggestionList from './suggestion-list/suggestion-list';
+import { addNewSearch, resetAndHideSuggestions, selectItemIndex, establishSuggestionsForTerm, hideSuggestions } from './state-management/state-management';
 import './suggestion-input-search.css';
 
 const EMPTY_SEARCH_TERM = "";
@@ -53,20 +54,8 @@ class SuggestionInputSearch extends React.Component {
 
     submitSearch(term) {
         const { onSubmitFunction } = this.props;
-        const { recentSearches } = this.state;
+        this.setState(addNewSearch(term));
         onSubmitFunction(term);
-
-        const termNotFound = !recentSearches.includes(term);
-        let newSearches = recentSearches;
-
-        if (termNotFound) {
-            newSearches = [...this.state.recentSearches, term];
-        }
-
-        this.setState({
-            showSuggestions: false, suggestions: [],
-            recentSearches: newSearches, term, selectedItemIndex: NO_SELECTED_ITEM_INDEX
-        });
     }
 
     handleOnKeyPress(event) {
@@ -75,7 +64,7 @@ class SuggestionInputSearch extends React.Component {
         const term = selectedItemIndex > NO_SELECTED_ITEM_INDEX ? suggestions[selectedItemIndex] : event.target.value;
 
         if (keyCode === ESCAPE_KEY_CODE) {
-            this.setState({ showSuggestions: false, suggestions: [], selectedItemIndex: NO_SELECTED_ITEM_INDEX });
+            this.setState(resetAndHideSuggestions);
         }
 
         if (keyCode === ENTER_KEY_CODE && term !== EMPTY_SEARCH_TERM) {
@@ -84,7 +73,7 @@ class SuggestionInputSearch extends React.Component {
 
         if (keyCode === DOWN_ARROW_KEY_CODE || keyCode === UP_ARROW_KEY_CODE) {
             const selectedItemIndex = this.selectItem(suggestions.length, keyCode);
-            this.setState({ selectedItemIndex });
+            this.setState(selectItemIndex(selectedItemIndex));
             event.preventDefault();
         }
     }
@@ -107,21 +96,14 @@ class SuggestionInputSearch extends React.Component {
         const term = event.target.value;
         const suggestions = this.getSuggestionsFor(term);
 
-        if (suggestions.length > EMPTY_SUGGESTIONS) {
-            this.setState({ showSuggestions: true, suggestions, term });
-        } else {
-            this.setState({ showSuggestions: false, suggestions, term, selectedItemIndex: NO_SELECTED_ITEM_INDEX });
-        }
+        this.setState(establishSuggestionsForTerm(suggestions, term));
     }
 
     getSuggestionsFor(term) {
         const { minLength } = this.props;
         const { recentSearches } = this.state;
 
-        if (minLength > term.length) {
-            return [];
-        }
-        return recentSearches.filter(it => it.toLowerCase().includes(term.toLowerCase()));
+        return minLength > term.length ? [] : recentSearches.filter(it => it.toLowerCase().includes(term.toLowerCase()));
     }
 
     handleOnClickOnItem(event) {
@@ -131,12 +113,12 @@ class SuggestionInputSearch extends React.Component {
 
     handleClickOutside(event) {
         if (!this.inputRef.contains(event.target)) {
-            this.setState({ showSuggestions: false, selectedItemIndex: NO_SELECTED_ITEM_INDEX });
+            this.setState(hideSuggestions);
         }
     }
 
     handleOnSelectedItemIndex(selectedItemIndex) {
-        this.setState({ selectedItemIndex });
+        this.setState(selectItemIndex(selectedItemIndex));
     }
 
     render() {

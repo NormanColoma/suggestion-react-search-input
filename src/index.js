@@ -54,8 +54,9 @@ class SuggestionInputSearch extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { recentSearches } = this.state;
+        const { persistent } = this.props;
 
-        if (recentSearches !== prevState.recentSearches) {
+        if (recentSearches !== prevState.recentSearches && persistent) {
             saveSearches(recentSearches);
         }
     }

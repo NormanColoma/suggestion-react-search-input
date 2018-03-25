@@ -277,4 +277,20 @@ test('should remove handelClickOutside event listener when unmount component', (
     expect(removeEventListenerMock.mock.calls.length).toEqual(1);
 });
 
+test('Should call saveSearches when component is persistent and current recentSearches are different than previous ones', () =>{
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+
+    suggestionInputSearch.setProps({
+        persistent: true
+    });
+    suggestionInputSearch.setState({
+        recentSearches: ['star wars']
+    });
+
+    suggestionInputSearch.update();
+    expect(localStorageMock.setItem.mock.calls.length).toBe(1);
+
+    localStorageMock.setItem.mockReset();
+});
+
 

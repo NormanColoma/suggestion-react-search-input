@@ -3,7 +3,7 @@ export const saveSearches = (searches) => {
         const serializedSearches = JSON.stringify(searches);
         localStorage.setItem('searches', serializedSearches);
     } catch(err) {
-        console.error('There was an error while persisting the data to local storage');
+        console.error('There was an error while persisting data to local storage');
     }
 };
 
@@ -15,6 +15,6 @@ export const loadSearches = () => {
         }
         return JSON.parse(persistedSearches);
     } catch(err) {
-        console.error('There was an error while retrieving the data to local storage');
+        console.error('There was an error while retrieving data from local storage');
     }
 };

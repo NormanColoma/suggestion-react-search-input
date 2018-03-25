@@ -1,4 +1,4 @@
-# 1.0.0 (March 25, 2018)
+# 1.0.0 (March 25, 2018)
 
 * Add localStorage for persisting searches entered. This is optional.
 * Persistent is new prop. It determines when component should behave as persistent.

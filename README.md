@@ -21,13 +21,15 @@ A suggestion search input for React based on searches entered. Once a option is 
 
 * When clicking an item from dropdown list, submitting function is fired up. The behaviour in this case, is the same as submitting the input by pressing the enter key.
 
+* Insensitive case is supported when searching.
+
 * It is possible to specify the minimum length of the text entered before starting making suggestions.
 
 * If an item is selected, or mouse is over it, when submitting, the option selected is chosen.
 
 * Once a new option is entered, it will appear as a suggestion in the following searches.
 
-* The state of suggestions is not persistent, so it must be handled by you.
+* The state of suggestions can be either persistent, or not.
 
 ## Installation 
 
@@ -76,16 +78,18 @@ export default App;
 
 ## Properties
 
-* **onSubmitFunction:** Function to be executed when clicking an item or submitting text entered. **Required**
+* **onSubmitFunction(function):** Function to be executed when clicking an item or submitting text entered. **Required**
 
-* **recentSearches:** An array containing recent searches. As long as you want to start with preestablished historic of searches, pass it. By default empty array is passed. **Optional**
+* **recentSearches(array):** An array containing recent searches. As long as you want to start with preestablished historic of searches, pass it. By default empty array is passed. **Optional**
 
-* **placeholder:** The placeholder to be displayed in input. By default is *'Search...'*. **Optional**
+* **placeholder(string):** The placeholder to be displayed in input. By default is *'Search...'*. **Optional**
 
-* **inputPosition:** Where the input will be positioned at the screen. By default its value is *'start'* which means that will be positioned at the left of the screen. Supported values are: *'center', 'start', 'end'.* **Optional**
+* **inputPosition(string):** Where the input will be positioned at the screen. By default its value is *'start'* which means that will be positioned at the left of the screen. Supported values are: *'center', 'start', 'end'.* **Optional**
 
-* **inputClass:** Styles provided to the input. It comes with very simple styles, but you can pass your own styles by setting this property with the name of your custom class. **Optional**
+* **inputClass(string):** Styles provided to the input. It comes with very simple styles, but you can pass your own styles by setting this property with the name of your custom class. **Optional**
 
-* **suggestionListClass:** Styles provided to the dropdown list of suggestions. It comes with very simple styles, but you can pass your own styles by setting this property with the name of your custom class. **Optional**
+* **suggestionListClass(string):** Styles provided to the dropdown list of suggestions. It comes with very simple styles, but you can pass your own styles by setting this property with the name of your custom class. **Optional**
 
-* **minLength:** Specifies the length of the text entered before starting making suggestions. By default the length is fixed to 1 character. **Optional**
+* **minLength(number):** Specifies the length of the text entered before starting making suggestions. By default the length is fixed to 1 character. **Optional**
+
+* **persistent(boolean):** Indicates whether component should behave as persistent one or not. By default is set to false.

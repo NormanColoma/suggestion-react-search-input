@@ -13,6 +13,13 @@ const UP_ARROW_KEY_CODE = 38;
 const ENTER_KEY_CODE = 13;
 const ESCAPE_KEY_CODE = 27;
 
+// Global mocking localStorage;
+const localStorageMock = {
+    setItem: jest.fn(),
+    getItem: jest.fn()
+};
+global.localStorage = localStorageMock;
+
 test('Should return empty array of suggestions when recentSearches is empty', () =>{
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
 

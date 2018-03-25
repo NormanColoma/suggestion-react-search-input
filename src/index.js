@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SuggestionList from './suggestion-list/suggestion-list';
 import { addNewSearch, resetAndHideSuggestions, selectItemIndex, establishSuggestionsForTerm, 
-    hideSuggestions } from './state-management/state-management';
+    hideSuggestions, loadSearches, saveSearches } from './state-management/state-management';
 import { ENTER_KEY_CODE, DOWN_ARROW_KEY_CODE, UP_ARROW_KEY_CODE, ESCAPE_KEY_CODE, CLICK_EVENT } from './keyboard.constants';
 import './suggestion-input-search.css';
 
@@ -16,11 +16,13 @@ class SuggestionInputSearch extends React.Component {
     constructor(props) {
         super(props);
 
-        const { inputClass, suggestionListClass, inputPosition } = props;
+        const { inputClass, suggestionListClass, inputPosition, persistent } = props;
+        const recentSearches = persistent ? loadSearches() : this.props.recentSearches;
+        
         this.state = {
             showSuggestions: false,
             suggestions: [],
-            recentSearches: this.props.recentSearches,
+            recentSearches,
             term: EMPTY_TERM,
             selectedItemIndex: NO_SELECTED_ITEM_INDEX
         };
@@ -38,7 +40,8 @@ class SuggestionInputSearch extends React.Component {
         suggestionListClass: 'suggestions-container',
         placeholder: 'Search...',
         recentSearches: [],
-        minLength: 1
+        minLength: 1,
+        persistent: false
     }
 
     componentDidMount() {
@@ -47,6 +50,14 @@ class SuggestionInputSearch extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener(CLICK_EVENT, this.handleClickOutside);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { recentSearches } = this.state;
+
+        if (recentSearches !== prevState.recentSearches) {
+            saveSearches(recentSearches);
+        }
     }
 
     getSuggestionsFor(term) {

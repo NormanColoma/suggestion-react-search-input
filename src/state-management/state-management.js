@@ -1,5 +1,6 @@
 const NO_SELECTED_ITEM_INDEX = -1;
 const EMPTY_SUGGESTIONS = 0;
+import { loadSearches, saveSearches } from './local-storage/local.storage';
 
 const addNewSearch = (term) => (state) => {
     const { recentSearches } = state;
@@ -30,4 +31,4 @@ const establishSuggestionsForTerm = (suggestions, term) => (state) => {
     return { showSuggestions: false, term, selectedItemIndex: NO_SELECTED_ITEM_INDEX };
 }
 
-export { addNewSearch, resetAndHideSuggestions, hideSuggestions, selectItemIndex, establishSuggestionsForTerm };
+export { addNewSearch, resetAndHideSuggestions, hideSuggestions, selectItemIndex, establishSuggestionsForTerm, loadSearches, saveSearches };

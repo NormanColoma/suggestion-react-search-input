@@ -1,3 +1,10 @@
+# 1.0.0 (March 25, 2018)
+
+* Add localStorage for persisting searches entered. This is optional.
+* Persistent is new prop. It determines when component should behave as persistent.
+* Add minor style modifications.
+* Now when searching, white spaces are being ignored.
+
 # 0.1.9 (March 23, 2018)
 
 * Supports closing suggestion list by pressing escape key

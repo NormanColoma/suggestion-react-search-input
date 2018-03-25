@@ -21,7 +21,7 @@ const hideSuggestions = (state) => {
     return { showSuggestions: false, selectedItemIndex: NO_SELECTED_ITEM_INDEX };
 }
 
-const selectItemIndex = (selectedItemIndex) => (state) => ({ selectedItemIndex});
+const selectItemIndex = (selectedItemIndex) => (state) => ({ selectedItemIndex });
 
 const establishSuggestionsForTerm = (suggestions, term) => (state) => {
     if (suggestions.length > EMPTY_SUGGESTIONS) {

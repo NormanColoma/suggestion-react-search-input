@@ -53,7 +53,8 @@ class SuggestionInputSearch extends React.Component {
         const { minLength } = this.props;
         const { recentSearches } = this.state;
 
-        return minLength > term.length ? [] : recentSearches.filter(it => it.toLowerCase().includes(term.toLowerCase()));
+        return minLength > term.length ? [] : recentSearches
+            .filter(it => it.toLowerCase().trim().includes(term.toLowerCase().trim()));
     }
 
     handleOnKeyPress(event) {

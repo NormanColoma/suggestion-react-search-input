@@ -260,6 +260,14 @@ test('should call setState when submiting the component and term passed found', 
     expect(setStateSpy).toHaveBeenCalledTimes(1);
 });
 
+test('should remove handelClickOutside event listener when unmount component', () => {
+    const suggestionInputSearch = shallow(<SuggestionInputSearch onSubmitFunction={() => {}}/>);
+    const removeEventListenerMock = jest.fn();
+    document.removeEventListener = removeEventListenerMock;
 
+    suggestionInputSearch.unmount();
+
+    expect(removeEventListenerMock.mock.calls.length).toEqual(1);
+});
 
 

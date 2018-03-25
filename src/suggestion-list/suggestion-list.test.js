@@ -78,6 +78,19 @@ test('should change selected class to second item in suggestion list when puttin
     expect(suggestionList.containsMatchingElement(expectedUnselectedComponent)).toBeTruthy();
 });
 
+test('should call onMouseOver fn when putting the mouse over selected item', () => {
+    const onMouseOverMock = jest.fn();
+    const suggestions = ['star wars', 'star trek'];
+    const suggestionList = shallow(
+        <SuggestionList show={true} suggestionListClass="testClass" suggestions={suggestions} selectedItemIndex={0} />
+    );
+
+    suggestionList.instance().onMouseOver = onMouseOverMock;
+    suggestionList.find('ul').childAt(0).simulate('mouseover');
+
+    expect(onMouseOverMock.mock.calls.length).toBe(1);
+});
+
 test('should set item as selected and call onSelectedItemIndex when selecting item from suggestion list', () => {
     const suggestions = ['star wars', 'star trek'];
     const onSelectedItemIndex = jest.fn();
@@ -99,6 +112,17 @@ test('should call onClickItem fn when clicking a item from suggestion list', () 
     const onClickItem = jest.fn();
     const suggestionList = shallow(
         <SuggestionList show={true} suggestionListClass="testClass" suggestions={['star wars']} onClickItem={onClickItem} />
+    );
+
+    suggestionList.find('ul').childAt(0).simulate('click');
+    expect(onClickItem.mock.calls.length).toBe(1);
+});
+
+test('should call onClickItem fn when clicking a item selected from suggestion list', () => {
+    const onClickItem = jest.fn();
+    const suggestionList = shallow(
+        <SuggestionList show={true} suggestionListClass="testClass"
+             suggestions={['star wars']} onClickItem={onClickItem} selectedItemIndex={0}/>
     );
 
     suggestionList.find('ul').childAt(0).simulate('click');

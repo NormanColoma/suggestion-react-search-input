@@ -11,6 +11,7 @@ const EMPTY_TERM = '';
 const EMPTY_SUGGESTIONS = 0;
 const NO_SELECTED_ITEM_INDEX = -1;
 const FIRST_ELEMENT_INDEX = 0;
+const DIACRITICS_REGEX = /[\u0300-\u036f]/g;
 
 class SuggestionInputSearch extends React.Component {
     constructor(props) {
@@ -64,9 +65,18 @@ class SuggestionInputSearch extends React.Component {
     getSuggestionsFor(term) {
         const { minLength } = this.props;
         const { recentSearches } = this.state;
+        const { length } = term;
 
-        return minLength > term.length ? [] : recentSearches
-            .filter(it => it.toLowerCase().trim().includes(term.toLowerCase().trim()));
+        const normalizeStr = (str) => {
+            console.log(str);
+            return str.toLowerCase()
+            .trim()
+            .normalize('NFD')
+            .replace(DIACRITICS_REGEX, "");
+        }
+        const includesTerm = (str, term) => normalizeStr(str).includes(normalizeStr(term));
+        
+        return minLength > length ? [] : recentSearches.filter(it => includesTerm(it, term));
     }
 
     handleOnKeyPress(event) {

@@ -19,7 +19,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm run test:production
-  build: 
+  build_and_deploy: 
     docker:
       - image: circleci/node:8
     steps:
@@ -27,14 +27,8 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm run build
-  deploy:
-    docker:
-      - image: circleci/node:8
-    steps: 
-    - checkout
-    - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-    - run: npm publish
-
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run: npm publish
 workflows:
   version: 2
   full_deploy:
@@ -49,17 +43,9 @@ workflows:
           filters: 
             tags:
               only: /.*/
-      - build:
+      - build_and_deploy:
           requires: 
             - test
-          filters: 
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
-      - deploy:
-          requires: 
-            - build
           filters: 
             tags:
               only: /^v.*/

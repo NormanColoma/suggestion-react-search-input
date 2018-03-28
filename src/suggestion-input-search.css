@@ -1,32 +1,34 @@
-input[type=text].suggestion-input {
+.search-input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-input-container.suggestion-input input[type=text] {
     border-top: none;
     border-left: none;
     border-right: none;
-    outline: none;
     border-bottom: 1px solid #cacaca;
+    outline: none;
     width: 25%;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-family: 'Open Sans', sans-serif;
-    margin: 0 auto;
-    position: absolute;
     line-height: 1.2;
 }
   
-input[type=text].suggestion-input:focus {
+.search-input-container.suggestion-input input[type=text]:focus {
     transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
     border-bottom: 2px solid #008CBA;
 }
 
 .end {
-    right: 0;
+    align-items: flex-end;
 }
 
 .start {
-    left: 0;
+    align-items: flex-start;
 }
 
 .center {
-    right: 0;
-    left: 0;
+    align-items: center;
 }
 

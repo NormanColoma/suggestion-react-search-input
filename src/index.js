@@ -38,7 +38,7 @@ class SuggestionInputSearch extends React.Component {
     }
 
     static defaultProps = {
-        inputClass: 'suggestion-input',
+        inputClass: 'search-input-container suggestion-input',
         inputPosition: 'start',
         suggestionListClass: 'suggestions-container',
         placeholder: 'Search...',
@@ -149,7 +149,7 @@ class SuggestionInputSearch extends React.Component {
         const suggestionListClasses = `${suggestionListClass} ${inputPosition}`;
 
         return (
-            <div>
+            <div className={inputClasses}>
                 <input
                     type="text"
                     name="search"
@@ -159,7 +159,6 @@ class SuggestionInputSearch extends React.Component {
                     onClick={this.handleOnSearch}
                     onKeyDown={this.handleOnKeyPress}
                     ref={(input) => { this.inputRef = input }}
-                    className={inputClasses}
                 />
                 <SuggestionList
                     show={showSuggestions}

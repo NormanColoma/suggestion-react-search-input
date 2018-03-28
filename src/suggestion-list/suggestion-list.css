@@ -2,8 +2,7 @@
     width: 25%;
     webkit-box-shadow: 0 4px 10px rgba(53,60,72,0.1);
     box-shadow: 0 4px 10px rgba(53,60,72,0.1);
-    margin: 2rem auto !important;
-    position: absolute;
+    margin-top: 0.8em;
     border-radius: 4px;
     z-index: 1;
     background-color: #fff;
@@ -12,18 +11,15 @@
 .suggestions-container ul {
     padding: 0;
     margin: 0;
-    width: 100%;
-    float: left;
     list-style: none;
     font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
 }
 
 .suggestions-container ul li {
-    width: 100%;
-    height: 100%;
-    text-align: start;
     cursor: pointer;
-    box-sizing: border-box;
 }
 
 .suggestions-container ul li span {

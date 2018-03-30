@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SuggestionList from './suggestion-list/suggestion-list';
-import { addNewSearch, resetAndHideSuggestions, selectItemIndex, establishSuggestionsForTerm, 
-    hideSuggestions, loadSearches, saveSearches } from './state-management/state-management';
+import {
+    addNewSearch, resetAndHideSuggestions, selectItemIndex, establishSuggestionsForTerm,
+    hideSuggestions, loadSearches, saveSearches
+} from './state-management/state-management';
 import { ENTER_KEY_CODE, DOWN_ARROW_KEY_CODE, UP_ARROW_KEY_CODE, ESCAPE_KEY_CODE, CLICK_EVENT } from './keyboard.constants';
 import './suggestion-input-search.css';
 
@@ -11,6 +13,7 @@ const EMPTY_TERM = '';
 const EMPTY_SUGGESTIONS = 0;
 const NO_SELECTED_ITEM_INDEX = -1;
 const FIRST_ELEMENT_INDEX = 0;
+const DIACRITICS_REGEX = /[\u0300-\u036f]/g;
 
 class SuggestionInputSearch extends React.Component {
     constructor(props) {
@@ -18,7 +21,7 @@ class SuggestionInputSearch extends React.Component {
 
         const { inputClass, suggestionListClass, inputPosition, persistent } = props;
         const recentSearches = persistent ? loadSearches() : this.props.recentSearches;
-        
+
         this.state = {
             showSuggestions: false,
             suggestions: [],
@@ -35,7 +38,7 @@ class SuggestionInputSearch extends React.Component {
     }
 
     static defaultProps = {
-        inputClass: 'suggestion-input',
+        inputClass: 'search-input-container suggestion-input',
         inputPosition: 'start',
         suggestionListClass: 'suggestions-container',
         placeholder: 'Search...',
@@ -64,9 +67,16 @@ class SuggestionInputSearch extends React.Component {
     getSuggestionsFor(term) {
         const { minLength } = this.props;
         const { recentSearches } = this.state;
+        const { length } = term;
 
-        return minLength > term.length ? [] : recentSearches
-            .filter(it => it.toLowerCase().trim().includes(term.toLowerCase().trim()));
+        const normalizeStr = (str) => str.toLowerCase()
+            .trim()
+            .normalize('NFD')
+            .replace(DIACRITICS_REGEX, "");
+
+        const includesTerm = (str, term) => normalizeStr(str).includes(normalizeStr(term));
+
+        return minLength > length ? [] : recentSearches.filter(it => includesTerm(it, term));
     }
 
     handleOnKeyPress(event) {
@@ -139,7 +149,7 @@ class SuggestionInputSearch extends React.Component {
         const suggestionListClasses = `${suggestionListClass} ${inputPosition}`;
 
         return (
-            <div>
+            <div className={inputClasses}>
                 <input
                     type="text"
                     name="search"
@@ -149,7 +159,6 @@ class SuggestionInputSearch extends React.Component {
                     onClick={this.handleOnSearch}
                     onKeyDown={this.handleOnKeyPress}
                     ref={(input) => { this.inputRef = input }}
-                    className={inputClasses}
                 />
                 <SuggestionList
                     show={showSuggestions}

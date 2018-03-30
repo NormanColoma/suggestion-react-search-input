@@ -1,3 +1,8 @@
+# 1.0.5 (March 30, 2018)
+
+* Now searching with diacritics are supported. So i.e. you can either search 'star wars' or 'stár wärs' both will match 'star wars'. 
+* Flexbox added for improving styles. 
+
 # 1.0.0 (March 25, 2018)
 
 * Add localStorage for persisting searches entered. This is optional.

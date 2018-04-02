@@ -1,6 +1,6 @@
 .search-input-container {
-    display: flex;
-    flex-direction: column;
+    display: block;
+    position: absolute;
 }
 
 .search-input-container.suggestion-input input[type=text] {
@@ -9,7 +9,7 @@
     border-right: none;
     border-bottom: 1px solid #cacaca;
     outline: none;
-    width: 25%;
+    width: 400px;
     font-size: 0.8rem;
     font-family: 'Open Sans', sans-serif;
     line-height: 1.2;
@@ -21,14 +21,15 @@
 }
 
 .end {
-    align-items: flex-end;
+    right: 0;
 }
 
 .start {
-    align-items: flex-start;
+    left: 0
 }
 
 .center {
-    align-items: center;
+    right: 0;
+    left: 0;
 }
 

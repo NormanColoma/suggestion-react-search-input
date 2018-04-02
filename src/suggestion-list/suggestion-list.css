@@ -1,11 +1,12 @@
 .suggestions-container {
-    width: 25%;
+    width: 400px;
     webkit-box-shadow: 0 4px 10px rgba(53,60,72,0.1);
     box-shadow: 0 4px 10px rgba(53,60,72,0.1);
     margin-top: 0.8em;
     border-radius: 4px;
     z-index: 1;
     background-color: #fff;
+    margin: 0 auto;
 }
 
 .suggestions-container ul {
@@ -16,6 +17,7 @@
     display: flex;
     flex-direction: column;
     text-align: start;
+    margin-top: 10px;
 }
 
 .suggestions-container ul li {

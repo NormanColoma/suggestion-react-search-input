@@ -218,3 +218,7 @@ _Pvt_Extensions
 
 # Coverage
 coverage/
+
+# VSCode folders
+
+.vscode

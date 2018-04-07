@@ -1,3 +1,13 @@
+# 1.0.7 (April 7, 2018)
+
+* Fix total break of application when submit function is not provided, instead console error is shown.
+* Styles improvements: now element is being positioned and displayed by css flex;
+
+# 1.0.6 (April 2, 2018)
+
+* Styles fixing 
+
+
 # 1.0.5 (March 30, 2018)
 
 * Now searching with diacritics are supported. So i.e. you can either search 'star wars' or 'stár wärs' both will match 'star wars'. 

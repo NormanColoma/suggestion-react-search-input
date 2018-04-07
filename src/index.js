@@ -38,7 +38,7 @@ class SuggestionInputSearch extends React.Component {
     }
 
     static defaultProps = {
-        inputClass: 'search-input-container suggestion-input',
+        inputClass: 'suggestion-input',
         inputPosition: 'start',
         suggestionListClass: 'suggestions-container',
         placeholder: 'Search...',
@@ -138,18 +138,24 @@ class SuggestionInputSearch extends React.Component {
     submitSearch(term) {
         const { onSubmitFunction } = this.props;
         this.setState(addNewSearch(term));
-        onSubmitFunction(term);
+
+        if ( onSubmitFunction) {
+            onSubmitFunction(term);
+        } else {
+            console.error('Submit function must be provided');
+        }
     }
 
     render() {
         const { suggestions, showSuggestions, selectedItemIndex } = this.state;
         const { placeholder, inputClass, inputPosition, suggestionListClass } = this.props;
 
-        const inputClasses = `${inputClass} ${inputPosition}`;
+        const containerClasses = `search-input-container ${inputPosition}`;
+        const inputClasses = `${inputClass}`;
         const suggestionListClasses = `${suggestionListClass} ${inputPosition}`;
 
         return (
-            <div className={inputClasses}>
+            <div className={containerClasses}>
                 <input
                     type="text"
                     name="search"
@@ -159,6 +165,7 @@ class SuggestionInputSearch extends React.Component {
                     onClick={this.handleOnSearch}
                     onKeyDown={this.handleOnKeyPress}
                     ref={(input) => { this.inputRef = input }}
+                    className={inputClasses}
                 />
                 <SuggestionList
                     show={showSuggestions}

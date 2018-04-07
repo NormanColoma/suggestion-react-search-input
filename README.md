@@ -23,6 +23,8 @@ A suggestion search input for React based on searches entered. Once a option is 
 
 * Insensitive case is supported when searching.
 
+* When searching blank spaces and diacritics do not affect matching comparison.
+
 * It is possible to specify the minimum length of the text entered before starting making suggestions.
 
 * If an item is selected, or mouse is over it, when submitting, the option selected is chosen.
@@ -93,3 +95,10 @@ export default App;
 * **minLength(number):** Specifies the length of the text entered before starting making suggestions. By default the length is fixed to 1 character. **Optional**
 
 * **persistent(boolean):** Indicates whether component should behave as persistent one or not. By default is set to false.
+
+## About positioning and displaying
+
+This component is being displayed with css flex, so positioning will be directly affected by the width you provide to the
+parent element wrapping this component. 
+
+Besides the width of component is set to 400px. As long as you want to change this width, you can provide both, **inputClass** and **suggestionListClass** (bear in mind this overwritres all given styles).

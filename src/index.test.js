@@ -18,7 +18,13 @@ const localStorageMock = {
     setItem: jest.fn(),
     getItem: jest.fn()
 };
+
+const consoleMock = {
+    error: jest.fn()
+};
+
 global.localStorage = localStorageMock;
+global.console = consoleMock;
 
 test('Should return empty array of suggestions when recentSearches is empty', () =>{
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
@@ -265,6 +271,22 @@ test('should call setState when submiting the component and term passed found', 
     suggestionInputSearch.instance().submitSearch(term);
 
     expect(setStateSpy).toHaveBeenCalledTimes(1);
+});
+
+test('should fire console error when no submit function is provided', () => {
+    
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+    const term = 'star wars';
+    const recentSearches = [term];
+
+    suggestionInputSearch.setState({ recentSearches });
+
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    suggestionInputSearch.instance().submitSearch(term);
+
+    expect(consoleMock.error.mock.calls.length).toBe(1);
+
+    consoleMock.error.mockReset();
 });
 
 test('should remove handelClickOutside event listener when unmount component', () => {

@@ -6,7 +6,7 @@ import {
     hideSuggestions, loadSearches, saveSearches
 } from './state-management/state-management';
 import { ENTER_KEY_CODE, DOWN_ARROW_KEY_CODE, UP_ARROW_KEY_CODE, ESCAPE_KEY_CODE, CLICK_EVENT } from './keyboard.constants';
-import './suggestion-input-search.css';
+import './suggestion-input-search.scss';
 
 const EMPTY_SEARCH_TERM = "";
 const EMPTY_TERM = '';

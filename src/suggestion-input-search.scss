@@ -1,0 +1,35 @@
+@import 'colors', 'main';
+
+.search-input-container {
+    display: flex;
+    flex-direction: column;
+    .suggestion-input {
+        border: {
+            top: none;
+            left: none;
+            right: none;
+            bottom: $border-input;
+        }
+        outline: none;
+        width: $default-width;
+        font-size: $input-font-size;
+        font-family: 'Open Sans', sans-serif;
+        line-height: 1.2;
+    }
+    .suggestion-input:focus {
+        transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+        border-bottom: $border-input-focus;
+    }
+}
+
+.end {
+    align-items: flex-end;
+}
+
+.start {
+    align-items: flex-start;
+}
+
+.center {
+    align-items: center;
+}

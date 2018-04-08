@@ -1,5 +1,5 @@
 import React from 'react';
-import './suggestion-list.css';
+import './suggestion-list.scss';
 
 const SELECTED_CLASS = 'selected';
 const EMPTY_CLASS = "";

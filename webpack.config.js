@@ -1,4 +1,5 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -7,7 +8,7 @@ module.exports = {
     filename: 'index.js',
     libraryTarget: 'commonjs2'
   },
-  devtool: 'source-map',
+  devtool: 'none',
   module: {
     rules: [
       {
@@ -26,9 +27,28 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        test: /\.scss$/,
+        use: [{
+          loader: "style-loader" // creates style nodes from JS strings
+        }, {
+          loader: "css-loader" // translates CSS into CommonJS
+        }, {
+          loader: "sass-loader", // compiles Sass to CSS
+          options: {
+            includePaths: ["src"]
+          }
+        }]
       }
     ]
-  }
+  },
+  plugins: [
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        output: {
+          comments: false,
+          beautify: false,
+        }
+      }
+    })
+  ]
 };

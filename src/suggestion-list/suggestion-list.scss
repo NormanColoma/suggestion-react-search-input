@@ -1,0 +1,39 @@
+@import 'colors', 'main';
+
+.suggestions-container {
+    width: $default-width;
+    webkit-box-shadow: 0 4px 10px $box-shadow-color;
+    box-shadow: 0 4px 10px $box-shadow-color;
+    border-radius: $border-radius;
+    z-index: 1;
+    background-color: $background;
+    margin-top: 0.7rem;
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0.9rem;
+        display: flex;
+        flex-direction: column;
+        text-align: start;
+        li {
+            cursor: pointer;
+            span {
+                padding: 0.8rem;
+                letter-spacing: .2px;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                text-transform: lowercase;
+                display: block;
+            }
+        }
+        li.selected {
+            background-color: $box-shadow-color;
+            padding-left: 5px;
+        }
+        li.selected:first-child, li.selected:last-child {
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+        }
+    }
+}

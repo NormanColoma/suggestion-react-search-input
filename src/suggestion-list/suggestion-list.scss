@@ -2,8 +2,8 @@
 
 .suggestions-container {
     width: $default-width;
-    webkit-box-shadow: 0 4px 10px $box-shadow-color;
-    box-shadow: 0 4px 10px $box-shadow-color;
+    webkit-box-shadow: $box-shadow;
+    box-shadow: $box-shadow;
     border-radius: $border-radius;
     z-index: 1;
     background-color: $background;
@@ -12,7 +12,7 @@
         padding: 0;
         margin: 0;
         list-style: none;
-        font-size: 0.9rem;
+        font-size: $list-font-size;
         display: flex;
         flex-direction: column;
         text-align: start;

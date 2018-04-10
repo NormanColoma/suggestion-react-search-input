@@ -1,4 +1,4 @@
-# 1.0.8 (April 10, 2018)
+# 1.0.8 (April 10, 2018)
 
 * Introduced sass for styles 
 * Reduced the size of the bundle consideraly 

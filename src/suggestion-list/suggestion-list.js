@@ -1,8 +1,12 @@
 import React from 'react';
 import './suggestion-list.scss';
 
-const SELECTED_CLASS = 'selected';
+// Components
+import SuggestionListItem from './suggestion-list-item/suggestion-list-item';
+
+// Constants
 const EMPTY_CLASS = "";
+const SELECTED_CLASS = 'selected';
 
 class SuggestionList extends React.Component {
 
@@ -25,7 +29,7 @@ class SuggestionList extends React.Component {
 
     setItemAsSelected(element, parentElement, currentItem, itemIndex) {
         const { onSelectedItemIndex } = this.props;
-        
+
         if (element === currentItem || parentElement === currentItem) {
             currentItem.className = SELECTED_CLASS;
             onSelectedItemIndex(itemIndex);
@@ -37,19 +41,14 @@ class SuggestionList extends React.Component {
 
         if (show) {
             const suggestionList = suggestions.map((it, index) => {
-                if (index === selectedItemIndex) {
-                    return <li key={it}
-                        className={SELECTED_CLASS}
-                        onClick={event => onClickItem(event)}
-                        onMouseOver={event => this.onMouseOver(event)}>
-                        <span>{it}</span>
-                    </li>;
-                }
-                return <li key={it}
+                return <SuggestionListItem
+                    key={index}
+                    index={index}
+                    selectedItemIndex={selectedItemIndex}
+                    item={it}
                     onClick={event => onClickItem(event)}
-                    onMouseOver={event => this.onMouseOver(event)}>
-                    <span>{it}</span>
-                </li>;
+                    onMouseOver={event => this.onMouseOver(event)}
+                />
             });
 
             return <div className={suggestionListClass}>

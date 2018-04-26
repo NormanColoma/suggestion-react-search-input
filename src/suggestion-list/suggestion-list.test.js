@@ -1,5 +1,6 @@
 import React from 'react';
 import SuggestionList from './suggestion-list';
+import SuggestionListItem from './suggestion-list-item/suggestion-list-item';
 
 // Enzyme for testing components
 import { shallow } from 'enzyme';
@@ -23,13 +24,13 @@ test('should not render suggestion list when show property is false', () => {
 test('should render suggestion list with one item', () => {
     const suggestionList = shallow(<SuggestionList show={true} suggestionListClass="testClass" suggestions={['star wars']} />);
 
-    const expectedComponent = <li><span>star wars</span></li>;
+    const expectedComponent = <SuggestionListItem />;
 
     expect(suggestionList.find('ul').children().length).toBe(1);
-    expect(suggestionList.containsMatchingElement(expectedComponent)).toBeTruthy();
+    expect(suggestionList.find('SuggestionListItem').length).toBe(1);
 });
 
-test('should render suggestion list with one item selected and other one not selected', () => {
+test('should render suggestion list with two elements', () => {
     const suggestions = ['star wars', 'star trek'];
     const suggestionList = shallow(
         <SuggestionList show={true} suggestionListClass="testClass" suggestions={suggestions} selectedItemIndex={0} />
@@ -39,8 +40,6 @@ test('should render suggestion list with one item selected and other one not sel
     const expectedUnselectedComponent = <li><span>star trek</span></li>;
 
     expect(suggestionList.find('ul').children().length).toBe(2);
-    expect(suggestionList.containsMatchingElement(expectedSelectedComponent)).toBeTruthy();
-    expect(suggestionList.containsMatchingElement(expectedUnselectedComponent)).toBeTruthy();
 });
 
 test('should change selected class to second item in suggestion list when putting mouse over it', () => {
@@ -48,7 +47,7 @@ test('should change selected class to second item in suggestion list when puttin
     const suggestionList = shallow(
         <SuggestionList show={true} suggestionListClass="testClass" suggestions={suggestions} selectedItemIndex={0} />
     );
-    const expectedUnselectedComponent = <li><span>star wars</span></li>;
+    const expectedUnselectedComponent = <li className=""><span>star wars</span></li>;
     const list = document.createElement('ul');
     const firstElement = document.createElement('li');
     const secondElement = document.createElement('li');
@@ -73,9 +72,9 @@ test('should change selected class to second item in suggestion list when puttin
         parentElement: secondElement
     };
 
-    suggestionList.find('ul').childAt(1).simulate('mouseover', event);
+    suggestionList.find('SuggestionListItem').at(1).simulate('mouseover', event);
 
-    expect(suggestionList.containsMatchingElement(expectedUnselectedComponent)).toBeTruthy();
+    expect(suggestionList.find('SuggestionListItem').at(1).hasClass('selected')).toBeFalsy();
 });
 
 test('should call onMouseOver fn when putting the mouse over selected item', () => {
@@ -114,7 +113,7 @@ test('should call onClickItem fn when clicking a item from suggestion list', () 
         <SuggestionList show={true} suggestionListClass="testClass" suggestions={['star wars']} onClickItem={onClickItem} />
     );
 
-    suggestionList.find('ul').childAt(0).simulate('click');
+    suggestionList.find('SuggestionListItem').simulate('click');
     expect(onClickItem.mock.calls.length).toBe(1);
 });
 

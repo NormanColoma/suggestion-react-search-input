@@ -5,6 +5,7 @@ import SuggestionInputSearch from './index';
 import { shallow } from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import { TAB_KEY_CODE } from './keyboard.constants';
 
 configure({ adapter: new Adapter() });
 
@@ -313,6 +314,26 @@ test('Should call saveSearches when component is persistent and current recentSe
     expect(localStorageMock.setItem.mock.calls.length).toBe(1);
 
     localStorageMock.setItem.mockReset();
+});
+
+test('should call submitSearch fn when tab_key is pressed and there is only one suggested term', () => {
+    // GIVEN
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+    const spy = jest.spyOn(suggestionInputSearch.instance(), 'submitSearch').mockReturnValue({});
+
+    // AND
+    const event = { 
+        keyCode: TAB_KEY_CODE, 
+        preventDefault: () => {} 
+    };
+    const initialState = { selectedItemIndex: 0 , suggestions: ['star wars'], term: 'star' };
+    suggestionInputSearch.setState(initialState);
+
+    // WHEN
+    suggestionInputSearch.instance().handleOnKeyPress(event);
+
+    // THEN
+    expect(spy).toHaveBeenCalledWith('star wars');
 });
 
 

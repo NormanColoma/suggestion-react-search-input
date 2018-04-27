@@ -1,17 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// Components
 import SuggestionList from './suggestion-list/suggestion-list';
+
+// State functions and constans
 import {
     addNewSearch, resetAndHideSuggestions, selectItemIndex, establishSuggestionsForTerm,
     hideSuggestions, loadSearches, saveSearches
 } from './state-management/state-management';
-import { ENTER_KEY_CODE, DOWN_ARROW_KEY_CODE, UP_ARROW_KEY_CODE, ESCAPE_KEY_CODE, CLICK_EVENT } from './keyboard.constants';
+import {
+    ENTER_KEY_CODE, DOWN_ARROW_KEY_CODE, UP_ARROW_KEY_CODE, ESCAPE_KEY_CODE,
+    CLICK_EVENT, TAB_KEY_CODE
+} from './keyboard.constants';
+
+// Styles
 import './suggestion-input-search.scss';
 
 const EMPTY_SEARCH_TERM = "";
 const EMPTY_TERM = '';
 const EMPTY_SUGGESTIONS = 0;
 const NO_SELECTED_ITEM_INDEX = -1;
+const SINGLE_SUGGESTION = 1;
 const FIRST_ELEMENT_INDEX = 0;
 const DIACRITICS_REGEX = /[\u0300-\u036f]/g;
 
@@ -97,6 +106,13 @@ class SuggestionInputSearch extends React.Component {
             this.setState(selectItemIndex(selectedItemIndex));
             event.preventDefault();
         }
+
+        if (keyCode === TAB_KEY_CODE && suggestions.length === SINGLE_SUGGESTION) {
+            event.preventDefault();
+            
+            const autocompletedTerm = suggestions[FIRST_ELEMENT_INDEX];
+            this.submitSearch(autocompletedTerm);
+        }
     }
 
     handleOnSearch(event) {
@@ -139,7 +155,7 @@ class SuggestionInputSearch extends React.Component {
         const { onSubmitFunction } = this.props;
         this.setState(addNewSearch(term));
 
-        if ( onSubmitFunction) {
+        if (onSubmitFunction) {
             onSubmitFunction(term);
         } else {
             console.error('Submit function must be provided');

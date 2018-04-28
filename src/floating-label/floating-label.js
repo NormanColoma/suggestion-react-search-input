@@ -25,7 +25,10 @@ class FloatingLabel extends React.Component {
         if (isInputEmpty && floatingLabel && !inputContainerClicked) {
             this.floatingLabelRef.classList.remove('focus');
         }
-        this.floatingLabelRef.classList.remove('focus-color');
+
+        if (floatingLabel) {
+            this.floatingLabelRef.classList.remove('focus-color');
+        }
     }
 
     focusElement() {

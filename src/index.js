@@ -38,7 +38,8 @@ class SuggestionInputSearch extends React.Component {
             suggestions: [],
             recentSearches,
             term: EMPTY_TERM,
-            selectedItemIndex: NO_SELECTED_ITEM_INDEX
+            selectedItemIndex: NO_SELECTED_ITEM_INDEX,
+            inputClicked: false
         };
         this.handleOnClickOnItem = this.handleOnClickOnItem.bind(this);
         this.handleOnSearch = this.handleOnSearch.bind(this);
@@ -46,7 +47,6 @@ class SuggestionInputSearch extends React.Component {
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.handleOnSelectedItemIndex = this.handleOnSelectedItemIndex.bind(this);
         this.inputRef = null;
-        this.floatingLabelRef = null;
     }
 
     static defaultProps = {
@@ -133,12 +133,6 @@ class SuggestionInputSearch extends React.Component {
 
     handleClickOutside(event) {
         if (!this.inputRef.contains(event.target)) {
-            const { term } = this.state;
-            const { floatingLabel } = this.props;
-
-            if (term === EMPTY_TERM && floatingLabel) {
-                this.floatingLabelRef.classList.remove('focus', 'focus-color');
-            }
             this.setState(hideSuggestions);
         }
     }
@@ -148,12 +142,7 @@ class SuggestionInputSearch extends React.Component {
     }
 
     handleOnClickInputContainer() {
-        const { floatingLabel } = this.props;
-
-        if (!floatingLabel) {
-            return;
-        }
-        this.floatingLabelRef.classList.add('focus', 'focus-color');
+        this.setState({ inputClicked: true });
     }
 
     selectItem(itemsLength, shiftingType) {
@@ -182,7 +171,7 @@ class SuggestionInputSearch extends React.Component {
     }
 
     render() {
-        const { suggestions, showSuggestions, selectedItemIndex } = this.state;
+        const { suggestions, showSuggestions, selectedItemIndex, inputClicked, term } = this.state;
         const { placeholder, inputClass, inputPosition, suggestionListClass, floatingLabel } = this.props;
 
         const containerClasses = `search-input-container ${inputPosition}`;
@@ -192,13 +181,17 @@ class SuggestionInputSearch extends React.Component {
         return (
             <div className={containerClasses}>
                 <div className="search-input-container__inner" onClick={() => this.handleOnClickInputContainer()}>
-                    <FloatingLabel floatingLabel={floatingLabel}
-                        ref={(floatingLabelRef) => { this.floatingLabelRef = floatingLabelRef }} />
+                    <FloatingLabel
+                        floatingLabel={floatingLabel}
+                        placeholder={placeholder}
+                        isInputEmpty={term === EMPTY_TERM}
+                        inputRef={this.inputRef}
+                        inputContainerClicked={inputClicked} />
                     <input
                         type="text"
                         name="search"
-                        value={this.state.term}
-                        placeholder={this.floatingLabel ? '' : placeholder}
+                        value={term}
+                        placeholder={floatingLabel ? '' : placeholder}
                         onChange={this.handleOnSearch}
                         onClick={this.handleOnSearch}
                         onKeyDown={this.handleOnKeyPress}

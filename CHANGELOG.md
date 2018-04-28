@@ -1,3 +1,8 @@
+# 1.1.1 (April 28, 2018) 
+
+* Now is possible to choose between floating label rather than regular input placeholder. For this, just set **floatingLabel** prop to true and pass it to the component (by default is set to false). 
+* If there is only one suggestion remaining in the list, by pressing tab key that suggestion is selected and submition function is fired.
+
 # 1.0.8 (April 10, 2018)
 
 * Introduced sass for styles 

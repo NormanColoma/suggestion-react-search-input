@@ -338,7 +338,7 @@ test('should call submitSearch fn when tab_key is pressed and there is only one 
 });
 
 test('should call add focus and focus color to floating label when clickcing input container', () => {
-    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+    const suggestionInputSearch = shallow(<SuggestionInputSearch floatingLabel={true}/>);
     const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
     const addClassFn = jest.fn();
     suggestionInputSearch.instance().floatingLabelRef = {
@@ -351,4 +351,59 @@ test('should call add focus and focus color to floating label when clickcing inp
     expect(addClassFn.mock.calls.length).toBe(1);
 });
 
+test('should not call add focus and focus color to floating label when clickcing input container but floatingLabel prop is false', () => {
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    const addClassFn = jest.fn();
+    suggestionInputSearch.instance().floatingLabelRef = {
+        classList: {
+            add: addClassFn
+        }
+    };
+    suggestionInputSearch.find('.search-input-container__inner').simulate('click');
+
+    expect(addClassFn.mock.calls.length).toBe(0);
+});
+
+test('should not call remove focus and focus color when clicking outside the component', () => {
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+    const event = { target: {} };
+    const term = "";
+
+    suggestionInputSearch.setState({ term });
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    const removeClassMock = jest.fn();
+    suggestionInputSearch.instance().inputRef = { contains: () => true };
+    suggestionInputSearch.instance().floatingLabelRef = {
+        classList: {
+            remove: removeClassMock
+        }
+    };
+
+    suggestionInputSearch.instance().handleClickOutside(event);
+
+    expect(setStateSpy).toHaveBeenCalledTimes(0);
+    expect(removeClassMock).toHaveBeenCalledTimes(0);
+});
+
+test('should call remove focus and focus color when clicking outside the component', () => {
+    const suggestionInputSearch = shallow(<SuggestionInputSearch floatingLabel={true} />);
+    const event = { target: {} };
+    const term = "";
+
+    suggestionInputSearch.setState({ term });
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    const removeClassMock = jest.fn();
+    suggestionInputSearch.instance().inputRef = { contains: () => false };
+    suggestionInputSearch.instance().floatingLabelRef = {
+        classList: {
+            remove: removeClassMock
+        }
+    };
+
+    suggestionInputSearch.instance().handleClickOutside(event);
+
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
+    expect(removeClassMock).toHaveBeenCalledTimes(1);
+});
 

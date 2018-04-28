@@ -47,8 +47,8 @@ test('should reset and hide suggestions from state', () => {
 });
 
 test('should hide suggestions', () => {
-    const initialState = { showSuggestions: true, selectedItemIndex: 0 };
-    const expectedState = { showSuggestions: false, selectedItemIndex: -1 };
+    const initialState = { showSuggestions: true, selectedItemIndex: 0, inputClicked: true };
+    const expectedState = { showSuggestions: false, selectedItemIndex: -1, inputClicked: false };
 
     expect(hideSuggestions(initialState)).toEqual(expectedState);
 });

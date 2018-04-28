@@ -228,6 +228,7 @@ test('should call setState when clicking outside the component', () => {
     const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
 
     suggestionInputSearch.instance().inputRef = { contains: () => false };
+    suggestionInputSearch.instance().floatingLabelRef = { classList: { remove: () => {} } };
     suggestionInputSearch.instance().handleClickOutside(event);
 
     expect(setStateSpy).toHaveBeenCalledTimes(1);
@@ -336,4 +337,13 @@ test('should call submitSearch fn when tab_key is pressed and there is only one 
     expect(spy).toHaveBeenCalledWith('star wars');
 });
 
+test('should call setState when clicking inputContainer', () => {
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    
+    suggestionInputSearch.instance().handleOnClickInputContainer();
+
+    expect(setStateSpy).toHaveBeenCalledTimes(1);
+    expect(setStateSpy).toHaveBeenCalledWith({ inputClicked: true });
+});
 

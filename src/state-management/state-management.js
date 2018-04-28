@@ -19,7 +19,7 @@ const resetAndHideSuggestions = (state) => {
 }
 
 const hideSuggestions = (state) => {
-    return { showSuggestions: false, selectedItemIndex: NO_SELECTED_ITEM_INDEX };
+    return { showSuggestions: false, selectedItemIndex: NO_SELECTED_ITEM_INDEX, inputClicked: false };
 }
 
 const selectItemIndex = (selectedItemIndex) => (state) => ({ selectedItemIndex });

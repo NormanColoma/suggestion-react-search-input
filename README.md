@@ -15,7 +15,8 @@ A suggestion search input for React based on searches entered. Once a option is 
 
 * Supports hiding the list by clicking outside the input or by pressing escape key.
 
-* Submitting is supported by enter key (when submitting a function is fired up).
+* Submitting is supported by enter key (when submitting a function is fired up). As well, submission is fired by pressing
+tab key when there is only one item remaining.
 
 * As a result of submitting, a function is fired up. This function must be provided as a property for this component. This function may take the selected option or the text entered in case it does not match any suggested option. 
 
@@ -32,6 +33,8 @@ A suggestion search input for React based on searches entered. Once a option is 
 * Once a new option is entered, it will appear as a suggestion in the following searches.
 
 * The state of suggestions can be either persistent, or not.
+
+* Allows using floating label instance of regular placeholder.
 
 ## Installation 
 
@@ -95,6 +98,8 @@ export default App;
 * **minLength(number):** Specifies the length of the text entered before starting making suggestions. By default the length is fixed to 1 character. **Optional**
 
 * **persistent(boolean):** Indicates whether component should behave as persistent one or not. By default is set to false.
+
+* **floatingLabel(boolean):** Specifies whether input should contains floating label rather than input placeholder. By default is set to false.
 
 ## About positioning and displaying
 

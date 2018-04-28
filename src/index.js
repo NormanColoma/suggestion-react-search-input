@@ -44,6 +44,7 @@ class SuggestionInputSearch extends React.Component {
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.handleOnSelectedItemIndex = this.handleOnSelectedItemIndex.bind(this);
         this.inputRef = null;
+        this.floatingLabelRef = null;
     }
 
     static defaultProps = {
@@ -109,7 +110,7 @@ class SuggestionInputSearch extends React.Component {
 
         if (keyCode === TAB_KEY_CODE && suggestions.length === SINGLE_SUGGESTION) {
             event.preventDefault();
-            
+
             const autocompletedTerm = suggestions[FIRST_ELEMENT_INDEX];
             this.submitSearch(autocompletedTerm);
         }
@@ -129,12 +130,23 @@ class SuggestionInputSearch extends React.Component {
 
     handleClickOutside(event) {
         if (!this.inputRef.contains(event.target)) {
+            const { term } = this.state;
+
+            if (term === EMPTY_TERM) {
+                this.floatingLabelRef.classList.remove('focus');
+            }
+            
+            this.floatingLabelRef.classList.remove('focus-color');
             this.setState(hideSuggestions);
         }
     }
 
     handleOnSelectedItemIndex(selectedItemIndex) {
         this.setState(selectItemIndex(selectedItemIndex));
+    }
+
+    handleOnClickInputContainer() {
+        this.floatingLabelRef.classList.add('focus', 'focus-color');
     }
 
     selectItem(itemsLength, shiftingType) {
@@ -172,25 +184,30 @@ class SuggestionInputSearch extends React.Component {
 
         return (
             <div className={containerClasses}>
-                <input
-                    type="text"
-                    name="search"
-                    placeholder={placeholder}
-                    value={this.state.term}
-                    onChange={this.handleOnSearch}
-                    onClick={this.handleOnSearch}
-                    onKeyDown={this.handleOnKeyPress}
-                    ref={(input) => { this.inputRef = input }}
-                    className={inputClasses}
-                />
-                <SuggestionList
-                    show={showSuggestions}
-                    suggestions={suggestions}
-                    onClickItem={this.handleOnClickOnItem}
-                    onSelectedItemIndex={this.handleOnSelectedItemIndex}
-                    selectedItemIndex={selectedItemIndex}
-                    suggestionListClass={suggestionListClasses}
-                />
+                <div className="search-input-container__inner" onClick={() => this.handleOnClickInputContainer()}>
+                    <span className="search-input-container__title"
+                        ref={(floatingLabel) => { this.floatingLabelRef = floatingLabel }}>
+                        <label>{placeholder}</label>
+                    </span>
+                    <input
+                        type="text"
+                        name="search"
+                        value={this.state.term}
+                        onChange={this.handleOnSearch}
+                        onClick={this.handleOnSearch}
+                        onKeyDown={this.handleOnKeyPress}
+                        ref={(input) => { this.inputRef = input }}
+                        className={inputClasses}
+                    />
+                    <SuggestionList
+                        show={showSuggestions}
+                        suggestions={suggestions}
+                        onClickItem={this.handleOnClickOnItem}
+                        onSelectedItemIndex={this.handleOnSelectedItemIndex}
+                        selectedItemIndex={selectedItemIndex}
+                        suggestionListClass={suggestionListClasses}
+                    />
+                </div>
             </div>
         )
     }

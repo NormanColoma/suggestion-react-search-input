@@ -228,6 +228,7 @@ test('should call setState when clicking outside the component', () => {
     const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
 
     suggestionInputSearch.instance().inputRef = { contains: () => false };
+    suggestionInputSearch.instance().floatingLabelRef = { classList: { remove: () => {} } };
     suggestionInputSearch.instance().handleClickOutside(event);
 
     expect(setStateSpy).toHaveBeenCalledTimes(1);
@@ -334,6 +335,20 @@ test('should call submitSearch fn when tab_key is pressed and there is only one 
 
     // THEN
     expect(spy).toHaveBeenCalledWith('star wars');
+});
+
+test('should call add focus and focus color to floating label when clickcing input container', () => {
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+    const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    const addClassFn = jest.fn();
+    suggestionInputSearch.instance().floatingLabelRef = {
+        classList: {
+            add: addClassFn
+        }
+    };
+    suggestionInputSearch.find('.search-input-container__inner').simulate('click');
+
+    expect(addClassFn.mock.calls.length).toBe(1);
 });
 
 

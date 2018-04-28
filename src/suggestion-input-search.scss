@@ -3,6 +3,22 @@
 .search-input-container {
     display: flex;
     flex-direction: column;
+    .search-input-container__inner {
+        width: $default-width;
+        position: absolute;
+        .search-input-container__title{
+            position: absolute;
+            pointer-events: none;
+            left: 0;
+        }
+        .focus {
+            transform: translateY(-1.28125em) scale(.75) perspective(100px) translateZ(.001px);
+            transform-origin: 0.0;
+        }
+        .focus-color {
+            color: $main-color;
+        }
+    }
     .suggestion-input {
         border: {
             top: none;

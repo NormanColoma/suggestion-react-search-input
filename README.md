@@ -1,4 +1,5 @@
 [![Build Status](http://circleci-badges-max.herokuapp.com/img/NormanColoma/suggestion-react-search-input?token=10091003d058c6c79a62cc8ce1af8cbeaed2e753)](https://circleci.com/gh/NormanColoma/suggestion-react-search-input)
+[![CircleCI](https://circleci.com/gh/NormanColoma/suggestion-react-search-input.svg?style=svg)](https://circleci.com/gh/NormanColoma/suggestion-react-search-input)
 [![npm version](https://badge.fury.io/js/suggestion-react-input-search.svg)](https://badge.fury.io/js/suggestion-react-input-search)
 [![Coverage Status](https://coveralls.io/repos/github/NormanColoma/suggestion-react-search-input/badge.svg?branch=master)](https://coveralls.io/github/NormanColoma/suggestion-react-search-input?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/NormanColoma/suggestion-react-search-input/blob/master/LICENSE.md)

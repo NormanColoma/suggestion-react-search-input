@@ -341,9 +341,42 @@ test('should call setState when clicking inputContainer', () => {
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
     const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
     
-    suggestionInputSearch.instance().handleOnClickInputContainer();
+    suggestionInputSearch.find('.search-input-container__inner').simulate('click');
 
     expect(setStateSpy).toHaveBeenCalledTimes(1);
     expect(setStateSpy).toHaveBeenCalledWith({ inputClicked: true });
+});
+
+test('should call submitSearch when autocomplete on match is true and introduced term is equals to the one reamining in suggestions', () => {
+    const suggestionInputSearch = shallow(<SuggestionInputSearch autocompleteOnMatch={true} />);
+    const term = 'star wars';
+    const getSuggestionsSpy = jest.spyOn(suggestionInputSearch.instance(), 'getSuggestionsFor').mockReturnValue([term]);
+    const submitSearchSpy = jest.spyOn(suggestionInputSearch.instance(), 'submitSearch').mockReturnValue({});
+    const event = { target: { value: term } };
+
+    suggestionInputSearch.instance().handleOnSearch(event);
+
+    expect(getSuggestionsSpy).toHaveBeenCalledWith(term);
+    expect(getSuggestionsSpy).toHaveBeenCalledTimes(1);
+    expect(submitSearchSpy).toHaveBeenCalledTimes(1);
+    expect(submitSearchSpy).toHaveBeenCalledWith(term);
+});
+
+test('Should match default props', () =>{
+    const suggestionInputSearch = shallow(<SuggestionInputSearch />);
+
+    const defaultProps = {
+        inputClass: 'suggestion-input',
+        inputPosition: 'start',
+        suggestionListClass: 'suggestions-container',
+        placeholder: 'Search...',
+        recentSearches: [],
+        minLength: 1,
+        persistent: false,
+        floatingLabel: false,
+        autocompleteOnMatch: false
+    };
+
+    expect(suggestionInputSearch.instance().props).toEqual(defaultProps);
 });
 

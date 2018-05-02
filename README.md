@@ -99,7 +99,9 @@ export default App;
 
 * **persistent(boolean):** Indicates whether component should behave as persistent one or not. By default is set to false.
 
-* **floatingLabel(boolean):** Specifies whether input should contains floating label rather than input placeholder. By default is set to false.
+* **floatingLabel(boolean):** Specifies whether input should contains floating label rather than input placeholder. By default is set to false. **Optional**
+
+* **autocompleteOnMatch(boolean):** Enables autocompletion of suggested term when there is only ine suggestion remaining. By default is set to false. **Optional**
 
 ## About positioning and displaying
 

@@ -1,3 +1,8 @@
+# 1.1.2 (May 2, 2010) 
+
+* Adding ability to autocomplete the suggestion when there is only one remaining. You can accomplish this, by setting **autocomplete Match** prop to true.
+* Added some animations for floating label. 
+
 # 1.1.1 (April 28, 2018) 
 
 * Now is possible to choose between floating label rather than regular input placeholder. For this, just set **floatingLabel** prop to true and pass it to the component (by default is set to false). 

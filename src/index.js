@@ -57,7 +57,8 @@ class SuggestionInputSearch extends React.Component {
         recentSearches: [],
         minLength: 1,
         persistent: false,
-        floatingLabel: false
+        floatingLabel: false,
+        autocompleteOnMatch: false
     }
 
     componentDidMount() {
@@ -122,7 +123,12 @@ class SuggestionInputSearch extends React.Component {
     handleOnSearch(event) {
         const term = event.target.value;
         const suggestions = this.getSuggestionsFor(term);
+        const { autocompleteOnMatch } = this.props;
 
+        if (autocompleteOnMatch && suggestions.length === SINGLE_SUGGESTION && suggestions[FIRST_ELEMENT_INDEX] === term) {
+            this.submitSearch(term);
+            return;
+        }
         this.setState(establishSuggestionsForTerm(suggestions, term));
     }
 

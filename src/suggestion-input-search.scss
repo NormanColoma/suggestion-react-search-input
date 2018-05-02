@@ -1,4 +1,4 @@
-@import 'colors', 'main';
+@import 'colors', 'main', 'animations';
 
 .search-input-container {
     display: flex;
@@ -9,10 +9,11 @@
         .search-input-container__title{
             position: absolute;
             pointer-events: none;
+            transition: $focus-input-transition;
             left: 0;
         }
         .focus {
-            transform: translateY(-1.28125em) scale(.75) perspective(100px) translateZ(.001px);
+            transform: $focus-input-transform;
             transform-origin: 0.0;
         }
         .focus-color {
@@ -33,7 +34,6 @@
         line-height: 1.2;
     }
     .suggestion-input:focus {
-        transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
         border-bottom: $border-input-focus;
     }
 }

@@ -374,9 +374,18 @@ test('Should match default props', () =>{
         minLength: 1,
         persistent: false,
         floatingLabel: false,
-        autocompleteOnMatch: false
+        autocompleteOnMatch: false,
+        maxSuggestions: 5
     };
 
     expect(suggestionInputSearch.instance().props).toEqual(defaultProps);
+});
+
+test('Should return an array of suggestions matching the term and limited by maxSuggestionsProp (two in this case)', () =>{
+    const suggestionInputSearch = shallow(<SuggestionInputSearch 
+        recentSearches={['star wars', 'star wars 2', 'star wars 3']} maxSuggestions={2}/>);
+
+    const expectedSuggestions = ['star wars', 'star wars 2'];
+    expect(suggestionInputSearch.instance().getSuggestionsFor("star")).toEqual(expectedSuggestions);
 });
 

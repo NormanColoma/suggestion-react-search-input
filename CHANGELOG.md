@@ -1,3 +1,11 @@
+# 1.2.0 (May 5, 2018)
+
+* Now is possible to set the number of suggestions that are going to be shown, by passing **maxSuggestions** props. By default this prop is set to 5. 
+
+### Breaking changes 
+
+Unless you change the value of **maxSuggestions**, only 5 suggestions will be shown (in case the introduced term matches with 5 or more) since it is the default value for metioned prop. 
+
 # 1.1.2 (May 2, 2010) 
 
 * Adding ability to autocomplete the suggestion when there is only one remaining. You can accomplish this, by setting **autocomplete Match** prop to true.

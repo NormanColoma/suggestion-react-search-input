@@ -92,9 +92,9 @@ class SuggestionInputSearch extends React.Component {
 
         const includesTerm = (str, term) => normalizeStr(str).includes(normalizeStr(term));
 
-        return minLength > length ? [] : recentSearches.filter((it, index) => {
-            return includesTerm(it, term) && index < maxSuggestions;
-        });
+        return minLength > length ? [] : recentSearches
+            .filter((it) => includesTerm(it, term))
+            .filter((it, index) => index < maxSuggestions);
     }
 
     handleOnKeyPress(event) {

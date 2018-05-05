@@ -25,6 +25,7 @@ const NO_SELECTED_ITEM_INDEX = -1;
 const SINGLE_SUGGESTION = 1;
 const FIRST_ELEMENT_INDEX = 0;
 const DIACRITICS_REGEX = /[\u0300-\u036f]/g;
+const MAXIMUM_SUGGESTIOMS_TO_SHOW = 5;
 
 class SuggestionInputSearch extends React.Component {
     constructor(props) {
@@ -58,7 +59,8 @@ class SuggestionInputSearch extends React.Component {
         minLength: 1,
         persistent: false,
         floatingLabel: false,
-        autocompleteOnMatch: false
+        autocompleteOnMatch: false, 
+        maxSuggestions: MAXIMUM_SUGGESTIOMS_TO_SHOW
     }
 
     componentDidMount() {
@@ -79,7 +81,7 @@ class SuggestionInputSearch extends React.Component {
     }
 
     getSuggestionsFor(term) {
-        const { minLength } = this.props;
+        const { minLength, maxSuggestions } = this.props;
         const { recentSearches } = this.state;
         const { length } = term;
 
@@ -90,7 +92,9 @@ class SuggestionInputSearch extends React.Component {
 
         const includesTerm = (str, term) => normalizeStr(str).includes(normalizeStr(term));
 
-        return minLength > length ? [] : recentSearches.filter(it => includesTerm(it, term));
+        return minLength > length ? [] : recentSearches.filter((it, index) => {
+            return includesTerm(it, term) && index < maxSuggestions;
+        });
     }
 
     handleOnKeyPress(event) {

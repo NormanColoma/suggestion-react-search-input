@@ -103,6 +103,8 @@ export default App;
 
 * **autocompleteOnMatch(boolean):** Enables autocompletion of suggested term when there is only ine suggestion remaining. By default is set to false. **Optional**
 
+* **maxSuggestions(number):** Establish the number of suggestions to show. By default is set to 5. **Optional**
+
 ## About positioning and displaying
 
 This component is being displayed with css flex, so positioning will be directly affected by the width you provide to the

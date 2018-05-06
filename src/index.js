@@ -48,6 +48,7 @@ class SuggestionInputSearch extends React.Component {
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.handleOnSelectedItemIndex = this.handleOnSelectedItemIndex.bind(this);
         this.inputRef = null;
+        this.setInputRef = element => { this.inputRef = element; };
     }
 
     static defaultProps = {
@@ -205,7 +206,7 @@ class SuggestionInputSearch extends React.Component {
                         onChange={this.handleOnSearch}
                         onClick={this.handleOnSearch}
                         onKeyDown={this.handleOnKeyPress}
-                        ref={(input) => { this.inputRef = input }}
+                        ref={this.setInputRef}
                         className={inputClasses}
                     />
                     <SuggestionList

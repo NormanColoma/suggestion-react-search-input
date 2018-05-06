@@ -10,6 +10,7 @@ class FloatingLabel extends React.Component {
         super(props);
 
         this.floatingLabelRef = null;
+        this.setFloatingLabelRef = element => { this.floatingLabelRef = element; };
     }
 
     componentDidUpdate() {
@@ -50,7 +51,7 @@ class FloatingLabel extends React.Component {
         }
         return <span
             className="search-input-container__title"
-            ref={(floatingLabelRef) => { this.floatingLabelRef = floatingLabelRef }}>
+            ref={this.setFloatingLabelRef}>
             <label>{placeholder}</label>
         </span>
     }

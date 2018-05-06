@@ -13,6 +13,7 @@ class SuggestionList extends React.Component {
     constructor(props) {
         super(props);
         this.suggestionListRef = null;
+        this.setSuggestionListRef = element => { this.suggestionListRef = element; };
     }
 
     onMouseOver(event) {
@@ -52,7 +53,7 @@ class SuggestionList extends React.Component {
             });
 
             return <div className={suggestionListClass}>
-                <ul ref={(list) => { this.suggestionListRef = list; }}>
+                <ul ref={this.setSuggestionListRef}>
                     {suggestionList}
                 </ul>
             </div>;

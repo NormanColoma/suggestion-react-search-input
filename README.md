@@ -34,7 +34,7 @@ tab key when there is only one item remaining.
 
 * The state of suggestions can be either persistent, or not.
 
-* Allows using floating label instance of regular placeholder.
+* Allows using floating label rather than regular placeholder.
 
 ## Installation 
 

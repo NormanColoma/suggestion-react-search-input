@@ -94,8 +94,7 @@ class SuggestionInputSearch extends React.Component {
         const includesTerm = (str, term) => normalizeStr(str).includes(normalizeStr(term));
 
         return minLength > length ? [] : recentSearches
-            .filter((it) => includesTerm(it, term))
-            .filter((it, index) => index < maxSuggestions);
+            .filter((it) => includesTerm(it, term));
     }
 
     handleOnKeyPress(event) {
@@ -113,7 +112,14 @@ class SuggestionInputSearch extends React.Component {
 
         if (keyCode === DOWN_ARROW_KEY_CODE || keyCode === UP_ARROW_KEY_CODE) {
             const selectedItemIndex = this.selectItem(suggestions.length, keyCode);
+            let listDOMElement = document.querySelector('.suggestions-container');
+
             this.setState(selectItemIndex(selectedItemIndex));
+            if (selectItemIndex === FIRST_ELEMENT_INDEX) {
+                listDOMElement.scrollTop = 0;
+            } else {
+                listDOMElement.scrollTop = 42 * (selectedItemIndex+1 - MAXIMUM_SUGGESTIOMS_TO_SHOW);
+            }
             event.preventDefault();
         }
 

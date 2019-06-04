@@ -2,6 +2,7 @@
 
 .suggestions-container {
     width: $default-width;
+    max-height: $default-height;
     webkit-box-shadow: $box-shadow;
     box-shadow: $box-shadow;
     border-radius: $border-radius;
@@ -9,6 +10,7 @@
     background-color: $background;
     margin-top: 0.5rem;
     position: absolute;
+    overflow: scroll;
     
     ul {
         padding: 0;

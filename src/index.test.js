@@ -15,17 +15,23 @@ const ENTER_KEY_CODE = 13;
 const ESCAPE_KEY_CODE = 27;
 
 // Global mocking localStorage;
-const localStorageMock = {
-    setItem: jest.fn(),
-    getItem: jest.fn()
-};
 
 const consoleMock = {
     error: jest.fn()
 };
-
-global.localStorage = localStorageMock;
 global.console = consoleMock;
+
+beforeEach(() => {
+    jest.spyOn(Storage.prototype, 'setItem');
+    jest.spyOn(Storage.prototype, 'getItem');
+    jest.spyOn(document, 'querySelector').mockReturnValue(() => {});
+});
+
+afterEach(() =>  {
+    localStorage.setItem.mockRestore();
+    localStorage.getItem.mockRestore();
+    document.querySelector.mockRestore();
+});
 
 test('Should return empty array of suggestions when recentSearches is empty', () =>{
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
@@ -312,9 +318,7 @@ test('Should call saveSearches when component is persistent and current recentSe
     });
 
     suggestionInputSearch.update();
-    expect(localStorageMock.setItem.mock.calls.length).toBe(1);
-
-    localStorageMock.setItem.mockReset();
+    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
 });
 
 test('should call submitSearch fn when tab_key is pressed and there is only one suggested term', () => {
@@ -383,9 +387,9 @@ test('Should match default props', () =>{
 
 test('Should return an array of suggestions matching the term and limited by maxSuggestionsProp (two in this case)', () =>{
     const suggestionInputSearch = shallow(<SuggestionInputSearch 
-        recentSearches={['star wars', 'star wars 2', 'star wars 3']} maxSuggestions={2}/>);
+        recentSearches={['star wars', 'star wars 2', 'star wars 3']}/>);
 
-    const expectedSuggestions = ['star wars', 'star wars 2'];
+    const expectedSuggestions = ['star wars', 'star wars 2', 'star wars 3'];
     expect(suggestionInputSearch.instance().getSuggestionsFor("star")).toEqual(expectedSuggestions);
 });
 

@@ -21,7 +21,7 @@ jobs:
       - run: npm run test:production
   build_and_deploy: 
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:9
     steps:
       - checkout
       - restore_cache:

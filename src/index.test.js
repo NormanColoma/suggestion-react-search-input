@@ -15,23 +15,17 @@ const ENTER_KEY_CODE = 13;
 const ESCAPE_KEY_CODE = 27;
 
 // Global mocking localStorage;
+const localStorageMock = {
+    setItem: jest.fn(),
+    getItem: jest.fn()
+};
 
 const consoleMock = {
     error: jest.fn()
 };
+
+global.localStorage = localStorageMock;
 global.console = consoleMock;
-
-beforeEach(() => {
-    jest.spyOn(Storage.prototype, 'setItem');
-    jest.spyOn(Storage.prototype, 'getItem');
-    jest.spyOn(document, 'querySelector').mockReturnValue(() => {});
-});
-
-afterEach(() =>  {
-    localStorage.setItem.mockRestore();
-    localStorage.getItem.mockRestore();
-    document.querySelector.mockRestore();
-});
 
 test('Should return empty array of suggestions when recentSearches is empty', () =>{
     const suggestionInputSearch = shallow(<SuggestionInputSearch />);
@@ -111,6 +105,7 @@ test('should call selectItem fn when down_arrow key is pressed', () => {
     const spySelectItem = jest.spyOn(suggestionInputSearch.instance(), 'selectItem').mockReturnValue(selectedItemIndex);
     const spySubmitSearch = jest.spyOn(suggestionInputSearch.instance(), 'submitSearch').mockReturnValue(selectedItemIndex);
     const setStateSpy = jest.spyOn(suggestionInputSearch.instance(), 'setState').mockReturnValue({});
+    const documentSpy = jest.spyOn(document, 'querySelector').mockReturnValue({ scrollTop: 0});
     const event = {
         keyCode: DOWN_ARROW_KEY_CODE, 
         target: { value: ""},
@@ -123,6 +118,7 @@ test('should call selectItem fn when down_arrow key is pressed', () => {
     expect(spySelectItem).toHaveBeenCalledWith(0, DOWN_ARROW_KEY_CODE);
     expect(spySubmitSearch).toHaveBeenCalledTimes(0);
     expect(setStateSpy).toHaveBeenCalledTimes(1);
+    expect(documentSpy).toHaveBeenCalledTimes(1);
 });
 
 test('should call selectItem fn when up_arrow key is pressed', () => {
@@ -318,7 +314,9 @@ test('Should call saveSearches when component is persistent and current recentSe
     });
 
     suggestionInputSearch.update();
-    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+    expect(localStorageMock.setItem.mock.calls.length).toBe(1);
+
+    localStorageMock.setItem.mockReset();
 });
 
 test('should call submitSearch fn when tab_key is pressed and there is only one suggested term', () => {
@@ -387,9 +385,8 @@ test('Should match default props', () =>{
 
 test('Should return an array of suggestions matching the term and limited by maxSuggestionsProp (two in this case)', () =>{
     const suggestionInputSearch = shallow(<SuggestionInputSearch 
-        recentSearches={['star wars', 'star wars 2', 'star wars 3']}/>);
+        recentSearches={['star wars', 'star wars 2', 'star wars 3']} />);
 
     const expectedSuggestions = ['star wars', 'star wars 2', 'star wars 3'];
     expect(suggestionInputSearch.instance().getSuggestionsFor("star")).toEqual(expectedSuggestions);
 });
-

@@ -26,6 +26,7 @@ const SINGLE_SUGGESTION = 1;
 const FIRST_ELEMENT_INDEX = 0;
 const DIACRITICS_REGEX = /[\u0300-\u036f]/g;
 const MAXIMUM_SUGGESTIOMS_TO_SHOW = 5;
+const DEFAULT_ROW_HEIGHT = 41.59;
 
 class SuggestionInputSearch extends React.Component {
     constructor(props) {
@@ -100,6 +101,7 @@ class SuggestionInputSearch extends React.Component {
     handleOnKeyPress(event) {
         const { keyCode } = event;
         const { suggestions, selectedItemIndex } = this.state;
+        const { maxSuggestions } = this.props;
         const term = selectedItemIndex > NO_SELECTED_ITEM_INDEX ? suggestions[selectedItemIndex] : event.target.value;
 
         if (keyCode === ESCAPE_KEY_CODE) {
@@ -118,7 +120,7 @@ class SuggestionInputSearch extends React.Component {
             if (selectItemIndex === FIRST_ELEMENT_INDEX) {
                 listDOMElement.scrollTop = 0;
             } else {
-                listDOMElement.scrollTop = 42 * (selectedItemIndex+1 - MAXIMUM_SUGGESTIOMS_TO_SHOW);
+                listDOMElement.scrollTop = DEFAULT_ROW_HEIGHT * (selectedItemIndex+1 - maxSuggestions);
             }
             event.preventDefault();
         }
@@ -189,11 +191,14 @@ class SuggestionInputSearch extends React.Component {
 
     render() {
         const { suggestions, showSuggestions, selectedItemIndex, inputClicked, term } = this.state;
-        const { placeholder, inputClass, inputPosition, suggestionListClass, floatingLabel } = this.props;
+        const { placeholder, inputClass, inputPosition, suggestionListClass, floatingLabel, maxSuggestions } = this.props;
 
         const containerClasses = `search-input-container ${inputPosition}`;
         const inputClasses = `${inputClass}`;
         const suggestionListClasses = `${suggestionListClass} ${inputPosition}`;
+        const suggestionListHeightStyle = {
+            maxHeight: DEFAULT_ROW_HEIGHT * maxSuggestions
+        };
 
         return (
             <div className={containerClasses}>
@@ -222,6 +227,7 @@ class SuggestionInputSearch extends React.Component {
                         onSelectedItemIndex={this.handleOnSelectedItemIndex}
                         selectedItemIndex={selectedItemIndex}
                         suggestionListClass={suggestionListClasses}
+                        suggestionHeightStyle={suggestionListHeightStyle}
                     />
                 </div>
             </div>

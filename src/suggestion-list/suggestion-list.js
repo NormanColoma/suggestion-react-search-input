@@ -38,7 +38,7 @@ class SuggestionList extends React.Component {
     }
 
     render() {
-        const { show, suggestions, suggestionListClass, onClickItem, selectedItemIndex } = this.props;
+        const { show, suggestions, suggestionListClass, onClickItem, selectedItemIndex, suggestionHeightStyle } = this.props;
 
         if (show) {
             const suggestionList = suggestions.map((it, index) => {
@@ -52,7 +52,7 @@ class SuggestionList extends React.Component {
                 />
             });
 
-            return <div className={suggestionListClass}>
+            return <div className={suggestionListClass} style={suggestionHeightStyle}>
                 <ul ref={this.setSuggestionListRef}>
                     {suggestionList}
                 </ul>

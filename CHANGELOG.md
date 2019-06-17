@@ -1,4 +1,4 @@
-# 1.3.0 (May 5, 2018)
+# 1.3.0 (June 17, 2018)
 
 * Now **maxSuggestions** property only limitis the number of suggestions displayed at time, and the rest of suggestions remain accessible if you scroll over the list. 
 * Suggestion list is scrollable by moving mouse wheel or by moving upward/downward through arrow keys.

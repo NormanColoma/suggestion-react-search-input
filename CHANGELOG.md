@@ -1,6 +1,11 @@
+# 1.2.1 (May 5, 2018)
+
+* Now **maxSuggestions** property only limitis the number of suggestions displayed at time, and the rest of suggestions remain accessible if you scroll over the list. 
+* Suggestion list is scrollable by moving mouse wheel or by moving upward/downward through arrow keys.
+
 # 1.2.0 (May 5, 2018)
 
-* Now is possible to set the number of suggestions that are going to be shown, by passing **maxSuggestions** props. By default this prop is set to 5. 
+* Now is possible to set the number of suggestions that are going to be shown at time, by passing **maxSuggestions** props. By default this prop is set to 5. 
 
 ### Breaking changes 
 

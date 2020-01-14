@@ -117,10 +117,12 @@ class SuggestionInputSearch extends React.Component {
             let listDOMElement = document.querySelector('.suggestions-container');
 
             this.setState(selectItemIndex(selectedItemIndex));
-            if (selectItemIndex === FIRST_ELEMENT_INDEX) {
-                listDOMElement.scrollTop = 0;
-            } else {
-                listDOMElement.scrollTop = DEFAULT_ROW_HEIGHT * (selectedItemIndex+1 - maxSuggestions);
+            if (listDOMElement) {
+                if (selectItemIndex === FIRST_ELEMENT_INDEX) {
+                    listDOMElement.scrollTop = 0;
+                } else {
+                    listDOMElement.scrollTop = DEFAULT_ROW_HEIGHT * (selectedItemIndex+1 - maxSuggestions);
+                }
             }
             event.preventDefault();
         }

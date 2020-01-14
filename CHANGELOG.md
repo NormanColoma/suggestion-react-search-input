@@ -1,3 +1,7 @@
+# 1.4.0 (January 14, 2020)
+
+* Fixing arrow key navigations errors when trying to navigate on empty suggestion list
+
 # 1.3.0 (June 17, 2018)
 
 * Now **maxSuggestions** property only limitis the number of suggestions displayed at time, and the rest of suggestions remain accessible if you scroll over the list. 
@@ -11,7 +15,7 @@
 
 Unless you change the value of **maxSuggestions**, only 5 suggestions will be shown (in case the introduced term matches with 5 or more) since it is the default value for metioned prop. 
 
-# 1.1.2 (May 2, 2010) 
+# 1.1.2 (May 2, 2018) 
 
 * Adding ability to autocomplete the suggestion when there is only one remaining. You can accomplish this, by setting **autocomplete Match** prop to true.
 * Added some animations for floating label. 

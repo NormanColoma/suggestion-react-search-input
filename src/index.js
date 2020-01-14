@@ -219,6 +219,7 @@ class SuggestionInputSearch extends React.Component {
                         onKeyDown={this.handleOnKeyPress}
                         ref={this.setInputRef}
                         className={inputClasses}
+                        autoComplete="off"
                     />
                     <SuggestionList
                         show={showSuggestions}

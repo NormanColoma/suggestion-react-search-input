@@ -36,7 +36,7 @@ const establishSuggestionsForTerm = (suggestions, term) => (state) => {
     if (suggestions.length > EMPTY_SUGGESTIONS) {
         return { showSuggestions: true, suggestions, term };
     }
-    return { showSuggestions: false, term, selectedItemIndex: NO_SELECTED_ITEM_INDEX };
+    return { showSuggestions: false, term, lastItemSelected: term, selectedItemIndex: NO_SELECTED_ITEM_INDEX };
 }
 
 export { addNewSearch, resetAndHideSuggestions, hideSuggestions, selectItemIndex, establishSuggestionsForTerm, loadSearches, saveSearches };

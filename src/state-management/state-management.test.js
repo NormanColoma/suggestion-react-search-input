@@ -106,7 +106,7 @@ test('should establish suggestions and term, but not showing them because does n
     const initialState = { showSuggestions: false, suggestions: [], term: "" };
     
     const setStateFn = establishSuggestionsForTerm(suggestions, term);
-    const expectedState = { showSuggestions: false, term, selectedItemIndex: -1 };
+    const expectedState = { showSuggestions: false, term, selectedItemIndex: -1, lastItemSelected: term };
 
     expect(setStateFn(initialState)).toEqual(expectedState);
     

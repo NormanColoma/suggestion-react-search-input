@@ -9,7 +9,7 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 test('should render suggestion list item whit empty class', () => {
-    const suggestionListItem = shallow(<SuggestionListItem index={1}/>);
+    const suggestionListItem = shallow(<SuggestionListItem index={1} item={'star wars'} />);
 
     expect(suggestionListItem.find('li').hasClass('')).toBeTruthy();
 });
@@ -18,6 +18,14 @@ test('should render suggestion list item whit selected class', () => {
     const suggestionListItem = shallow(<SuggestionListItem />);
 
     expect(suggestionListItem.find('li').hasClass('selected')).toBeTruthy();
+});
+
+test('should render suggestion list item whit bold class', () => {
+    const suggestionListItem = shallow(<SuggestionListItem item={'star wars'} lastItemSelected={'star wars'} />);
+
+    suggestionListItem.render();
+
+    expect(suggestionListItem.find('li').hasClass('bold')).toBeTruthy();
 });
 
 test('should call onClick fn when clicking an item', () => {

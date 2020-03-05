@@ -38,7 +38,7 @@ class SuggestionList extends React.Component {
     }
 
     render() {
-        const { show, suggestions, suggestionListClass, onClickItem, selectedItemIndex, suggestionHeightStyle } = this.props;
+        const { show, suggestions, suggestionListClass, onClickItem, selectedItemIndex, suggestionHeightStyle, lastItemSelected } = this.props;
 
         if (show) {
             const suggestionList = suggestions.map((it, index) => {
@@ -49,6 +49,7 @@ class SuggestionList extends React.Component {
                     item={it}
                     onClick={event => onClickItem(event)}
                     onMouseOver={event => this.onMouseOver(event)}
+                    lastItemSelected={lastItemSelected}
                 />
             });
 

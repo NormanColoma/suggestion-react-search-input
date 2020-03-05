@@ -7,19 +7,27 @@ const addNewSearch = (term) => (state) => {
     const termNotFound = !recentSearches.includes(term);
 
     const newSearches = termNotFound ? [...recentSearches, term] : recentSearches;
+    const lastItemSelected = term;
 
     return {
         showSuggestions: false, suggestions: [],
-        recentSearches: newSearches, term, selectedItemIndex: NO_SELECTED_ITEM_INDEX
+        recentSearches: newSearches, term, selectedItemIndex: NO_SELECTED_ITEM_INDEX,
+        lastItemSelected
     }
 }
 
 const resetAndHideSuggestions = (state) => {
-    return { showSuggestions: false, suggestions: [], selectedItemIndex: NO_SELECTED_ITEM_INDEX };
+    const { lastItemSelected, term } = state;
+    const newTerm = lastItemSelected ? lastItemSelected : term;
+
+    return { showSuggestions: false, suggestions: [], term: newTerm, selectedItemIndex: NO_SELECTED_ITEM_INDEX };
 }
 
 const hideSuggestions = (state) => {
-    return { showSuggestions: false, selectedItemIndex: NO_SELECTED_ITEM_INDEX, inputClicked: false };
+    const { lastItemSelected, term } = state;
+    const newTerm = lastItemSelected ? lastItemSelected : term;
+
+    return { showSuggestions: false, term: newTerm, selectedItemIndex: NO_SELECTED_ITEM_INDEX, inputClicked: false };
 }
 
 const selectItemIndex = (selectedItemIndex) => (state) => ({ selectedItemIndex });

@@ -192,7 +192,7 @@ class SuggestionInputSearch extends React.Component {
     }
 
     render() {
-        const { suggestions, showSuggestions, selectedItemIndex, inputClicked, term } = this.state;
+        const { suggestions, showSuggestions, selectedItemIndex, inputClicked, term, lastItemSelected } = this.state;
         const { placeholder, inputClass, inputPosition, suggestionListClass, floatingLabel, maxSuggestions } = this.props;
 
         const containerClasses = `search-input-container ${inputPosition}`;
@@ -231,6 +231,7 @@ class SuggestionInputSearch extends React.Component {
                         selectedItemIndex={selectedItemIndex}
                         suggestionListClass={suggestionListClasses}
                         suggestionHeightStyle={suggestionListHeightStyle}
+                        lastItemSelected={lastItemSelected}
                     />
                 </div>
             </div>

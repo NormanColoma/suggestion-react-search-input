@@ -12,7 +12,7 @@ test('should add new term to recentSearches when term not found', () => {
         term: ""
     };
 
-    const expectedState = Object.assign({}, initialState, { term, recentSearches: [term] });
+    const expectedState = Object.assign({}, initialState, { term, recentSearches: [term], lastItemSelected: term });
 
     expect(setStateFn(initialState)).toEqual(expectedState);
 });
@@ -28,22 +28,47 @@ test('should not add new term to recentSearches when term found', () => {
         selectedItemIndex: -1,
         term: ""
     };
-    const expectedState = Object.assign({}, initialState, { term });
+    const expectedState = Object.assign({}, initialState, { term, lastItemSelected: term });
 
     expect(setStateFn(initialState)).toEqual(expectedState);
 });
 
-test('should reset and hide suggestions from state', () => {
+test('should reset and hide suggestions from state and set term to last item selected', () => {
     const term = 'star wars';
+    const lastItemSelected = 'star wars 2';
+
     const initialState = {
         showSuggestions: true,
         suggestions: [term],
-        selectedItemIndex: -1
+        selectedItemIndex: -1,
+        lastItemSelected
     };
 
-    const expectedState = { suggestions: [], selectedItemIndex: -1, showSuggestions: false };
+    const expectedState = { suggestions: [], selectedItemIndex: -1, showSuggestions: false, term: lastItemSelected };
 
     expect(resetAndHideSuggestions(initialState)).toEqual(expectedState);
+});
+
+test('should reset and hide suggestions from state and set term to its current value', () => {
+    const term = 'star wars';
+
+    const initialState = {
+        showSuggestions: true,
+        suggestions: [term],
+        selectedItemIndex: -1,
+        term
+    };
+
+    const expectedState = { suggestions: [], selectedItemIndex: -1, showSuggestions: false, term };
+
+    expect(resetAndHideSuggestions(initialState)).toEqual(expectedState);
+});
+
+test('should hide suggestions and set term to last item selected', () => {
+    const initialState = { showSuggestions: true, selectedItemIndex: 0, inputClicked: true, lastItemSelected: 'star wars' };
+    const expectedState = { showSuggestions: false, selectedItemIndex: -1, inputClicked: false, term: 'star wars' };
+
+    expect(hideSuggestions(initialState)).toEqual(expectedState);
 });
 
 test('should hide suggestions', () => {

@@ -14,7 +14,7 @@
         }
         .focus {
             transform: $focus-input-transform;
-            transform-origin: 0.0;
+            transform-origin: 0 0;
         }
         .focus-color {
             color: $main-color;

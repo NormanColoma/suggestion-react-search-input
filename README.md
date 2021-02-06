@@ -105,6 +105,8 @@ export default App;
 
 * **maxSuggestions(number):** Establish the number of suggestions to show. By default is set to 5. **Optional**
 
+* **onChangeText(function):** Returns the input text. **Optional**
+
 ## About positioning and displaying
 
 This component is being displayed with css flex, so positioning will be directly affected by the width you provide to the

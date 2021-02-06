@@ -136,6 +136,7 @@ class SuggestionInputSearch extends React.Component {
     }
 
     handleOnSearch(event) {
+        this.props.onChangeText(event.target.value)
         const term = event.target.value;
         const suggestions = this.getSuggestionsFor(term);
         const { autocompleteOnMatch } = this.props;

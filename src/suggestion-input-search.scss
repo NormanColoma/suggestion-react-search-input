@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     .search-input-container__inner {
-        width: $default-width;
+        width: 100%;
         position: absolute;
         .search-input-container__title{
             position: absolute;
